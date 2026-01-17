@@ -56,7 +56,24 @@ This repository contains all the resources you need to complete the Born2BeRoot 
    - Verify each requirement is met
    - Prepare for evaluation
 
-4. **[monitoring.sh](monitoring.sh)** - The monitoring script
+4. **[SETUP_CHECKLIST.md](SETUP_CHECKLIST.md)** - Interactive checklist
+   - Track your progress through the setup
+   - Verify each requirement is met
+   - Prepare for evaluation
+
+5. **[PARTITION_GUIDE.md](PARTITION_GUIDE.md)** - Partition structure explained
+   - Visual diagrams of disk layout
+   - LVM and encryption explained
+   - Expected `lsblk` output
+   - Tips for managing partitions
+
+6. **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Problem solving guide
+   - Common issues and solutions
+   - Emergency recovery procedures
+   - Debugging commands
+   - Prevention tips
+
+7. **[monitoring.sh](monitoring.sh)** - The monitoring script
    - Ready-to-use monitoring script
    - Copy to your VM: `/usr/local/bin/monitoring.sh`
    - Displays system information every 10 minutes
