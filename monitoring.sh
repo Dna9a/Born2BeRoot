@@ -44,7 +44,8 @@ ulog=$(users | wc -w)
 ip=$(hostname -I)
 mac=$(ip link | grep "link/ether" | awk '{print $2}')
 
-# Sudo commands
+# Sudo commands (total count - note: this processes entire journal)
+# For better performance on systems with large journals, add: --since "1 day ago"
 cmnd=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
 
 # Display information using wall

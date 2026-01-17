@@ -56,12 +56,7 @@ This repository contains all the resources you need to complete the Born2BeRoot 
    - Verify each requirement is met
    - Prepare for evaluation
 
-4. **[SETUP_CHECKLIST.md](SETUP_CHECKLIST.md)** - Interactive checklist
-   - Track your progress through the setup
-   - Verify each requirement is met
-   - Prepare for evaluation
-
-5. **[PARTITION_GUIDE.md](PARTITION_GUIDE.md)** - Partition structure explained
+4. **[PARTITION_GUIDE.md](PARTITION_GUIDE.md)** - Partition structure explained
    - Visual diagrams of disk layout
    - LVM and encryption explained
    - Expected `lsblk` output

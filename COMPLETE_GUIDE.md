@@ -330,7 +330,7 @@ Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/
 - `passwd_tries=3`: Limit authentication attempts to 3
 - `badpass_message`: Custom error message for wrong password
 - `logfile`: Log all sudo commands
-- `log_input`: Log input for sudo commands
+- `log_input`: Log input for sudo commands (⚠️ Note: logs everything typed, including passwords)
 - `log_output`: Log output for sudo commands
 - `iolog_dir`: Directory for input/output logs
 - `requiretty`: Require a terminal for sudo

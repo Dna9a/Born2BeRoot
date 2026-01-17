@@ -36,7 +36,7 @@ This guide covers common issues you might encounter during the Born2BeRoot proje
 2. After installation, manually configure with:
    ```bash
    sudo vim /etc/apt/sources.list
-   # Add:
+   # Add (replace 'bookworm' with your Debian version - check with 'cat /etc/os-release'):
    deb http://deb.debian.org/debian/ bookworm main
    deb-src http://deb.debian.org/debian/ bookworm main
    sudo apt update
