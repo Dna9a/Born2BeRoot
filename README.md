@@ -6,26 +6,30 @@
   <span style="font-size: 40px;">🐪</span>
 </div>
 
-# The
-
-
 <!-- # Description-->
 # Description
 This project aims to introduce you to the wonderful world of virtualization. 
-
-
-another solution for hardware lacking this one comes ainmming to give m
-
-You will create your first machine in VirtualBox (or UTM if you can’t use VirtualBox) using specific instructions. Then, at the end of this project, you will be able to set up
+Thats by creating your first virtual machine in `VirtualBox` (my case) using specific instructions.  Then, at the end of this project, you will be able to set up
 your own operating system while implementing strict rules.
+
+## Virtualization
+
+
+Virtualization is technology that you can use to create virtual representations of `servers`, `storage`, `networks`, and other `physical machines`. Virtual software mimics the functions of physical hardware to run multiple virtual machines simultaneously on a single physical machine. Businesses use virtualization to use their hardware resources efficiently and get greater returns from their investment. It also powers cloud computing services that help organizations manage infrastructure more efficiently. That's Another solution for hardware lacking this one comes aimming to give the users a isolated space from a host machine this one is called a guest one
 
 <!-- Instructions -->
 # Instructions
-
-
-![iuhm](https://media.licdn.com/dms/image/v2/D5622AQG9dFW02IU-9A/feedshare-shrink_800/B56ZbYPI9nGoAo-/0/1747384573418?e=2147483647&v=beta&t=m3boBsHH2ilW3Tp01yPlAEz0wWAruQxbOWOQ-2MtaVo)
+<!-- here is a picture -->
+[iuhm](https://media.licdn.com/dms/image/v2/D5622AQG9dFW02IU-9A/feedshare-shrink_800/B56ZbYPI9nGoAo-/0/1747384573418?e=2147483647&v=beta&t=m3boBsHH2ilW3Tp01yPlAEz0wWAruQxbOWOQ-2MtaVo)
 <!-- Resources -->
 # Resources
+
+- **[Amazon - Virtualization](https://aws.amazon.com/what-is/virtualization/)**
+- **[ - ]()**
+- **[ - ]()**
+- **[ - ]()**
+- **[ - ]()**
+- **[ - ]()**
 
 
 <!-- Additional sections may be required depending on the project (e.g., usage examples, feature list, technical choices, etc.). -->
