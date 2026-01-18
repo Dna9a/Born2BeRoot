@@ -47,3 +47,114 @@ ment, services installed) as well as a comparison between:
 ◦AppArmor vs SELinux
 ◦UFW vs firewalld
 ◦VirtualBox vs UTM -->
+
+
+
+
+- - -- - - - - - -- - -  
+
+
+2️⃣ Start fdisk
+
+```
+sudo fdisk /dev/sda
+```
+
+You are now inside fdisk (interactive mode).
+
+3️⃣ Check current partition table
+Command (m for help): p
+
+
+Meaning:
+Shows existing partitions so you don’t overwrite something by mistake.
+
+4️⃣ Create a new partition
+Command (m for help): n
+
+
+fdisk will ask:
+
+Partition type
+
+Partition type:
+  p   primary
+  e   extended
+Select (default p):
+
+
+➡️ Press Enter (primary)
+
+Partition number
+
+Partition number (1-4, default X):
+
+
+➡️ Press Enter
+
+First sector
+
+First sector (default ...):
+
+
+➡️ Press Enter
+
+Last sector (this is where size matters)
+
+Last sector, +/-sectors or +/-size{K,M,G}:
+
+
+➡️ Type:
+
++500M
+
+
+✅ This creates a 500 MB partition
+
+5️⃣ Set the partition type to Linux filesystem
+Command (m for help): t
+
+
+If it asks for a hex code:
+
+Hex code (type L to list all codes): 83
+
+
+Meaning:
+
+83 = Linux filesystem
+
+Correct for /boot in BIOS systems
+
+6️⃣ Verify before writing
+Command (m for help): p
+
+
+You should see something like:
+
+/dev/sda1   500M   Linux filesystem
+
+--------------------------------------
+
+After fdisk (very important)
+8️⃣ Format the partition
+```
+sudo mkfs.ext4 /dev/sda1
+```
+
+Meaning:
+Creates a filesystem so Linux can store files there.
+
+9️⃣ Mount it as /boot
+```
+sudo mount /dev/sda1 /boot
+```
+🔟 Make it permanent (/etc/fstab)
+```
+sudo blkid /dev/sda1
+```
+
+Copy the UUID, then edit:
+```
+sudo nano /etc/fstab
+```
