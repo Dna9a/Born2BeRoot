@@ -1,15 +1,15 @@
-# Born2BeRoot Complete Guide - Rocky Linux Edition
+# Born2BeRoot Complete Guide - Debian Edition
 
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Virtual Machine Setup](#virtual-machine-setup)
-3. [Rocky Linux Installation](#rocky-linux-installation)
+3. [Debian Installation](#debian-installation)
 4. [Partition Configuration](#partition-configuration)
 5. [System Configuration](#system-configuration)
 6. [User and Group Management](#user-and-group-management)
 7. [Sudo Configuration](#sudo-configuration)
 8. [SSH Configuration](#ssh-configuration)
-9. [Firewalld Setup](#firewalld-setup)
+9. [UFW Firewall Setup](#ufw-firewall-setup)
 10. [Password Policy](#password-policy)
 11. [Monitoring Script](#monitoring-script)
 12. [Bonus: WordPress Setup](#bonus-wordpress-setup)
@@ -20,14 +20,14 @@
 
 ## Introduction
 
-Born2BeRoot is a system administration project from the 42 School curriculum. The goal is to create a virtual machine running Rocky Linux (or Debian) with strict security configurations and custom monitoring capabilities.
+Born2BeRoot is a system administration project from the 42 School curriculum. The goal is to create a virtual machine running Debian (or Rocky Linux) with strict security configurations and custom monitoring capabilities.
 
 ### Project Requirements Overview
 - Virtual machine using VirtualBox or UTM
-- Latest stable Rocky Linux version (no graphical interface)
+- Latest stable Debian version (no graphical interface)
 - LVM with encrypted partitions
 - SSH running on port 4242
-- firewalld with only port 4242 open
+- UFW firewall with only port 4242 open
 - Strong password policy
 - Configured sudo with strict rules
 - Monitoring script displaying system information every 10 minutes
@@ -41,10 +41,10 @@ Born2BeRoot is a system administration project from the 42 School curriculum. Th
 2. Download the appropriate version for your operating system
 3. Install VirtualBox following the installation wizard
 
-### Step 2: Download Rocky Linux ISO
-1. Visit [Rocky Linux Downloads](https://rockylinux.org/download)
-2. Download the latest stable **Minimal ISO** (small installation image)
-3. Choose the appropriate architecture (usually x86_64 for 64-bit systems)
+### Step 2: Download Debian ISO
+1. Visit [Debian Official Downloads](https://www.debian.org/distrib/)
+2. Download the latest stable **netinst** ISO (small installation image)
+3. Choose the appropriate architecture (usually AMD64 for 64-bit systems)
 
 ### Step 3: Create Virtual Machine
 1. Open VirtualBox
@@ -52,8 +52,8 @@ Born2BeRoot is a system administration project from the 42 School curriculum. Th
 3. Configuration:
    - **Name:** Born2BeRoot (or your choice)
    - **Type:** Linux
-   - **Version:** Red Hat (64-bit)
-   - **Memory:** 2048 MB (2 GB) - minimum recommended for Rocky
+   - **Version:** Debian (64-bit)
+   - **Memory:** 1024 MB (1 GB) - minimum recommended
    - **Hard disk:** Create a virtual hard disk now
    - **Hard disk file type:** VDI (VirtualBox Disk Image)
    - **Storage:** Dynamically allocated
@@ -65,49 +65,33 @@ Born2BeRoot is a system administration project from the 42 School curriculum. Th
 3. **Storage** → Click on "Empty" under Controller: IDE
    - Click the disk icon on the right
    - Choose **"Choose a disk file"**
-   - Select your downloaded Rocky Linux ISO
+   - Select your downloaded Debian ISO
 4. Click **"OK"** to save settings
 
 ---
 
-## Rocky Linux Installation
+## Debian Installation
 
 ### Step 1: Start Installation
 1. Start your virtual machine
-2. Select **"Install Rocky Linux"** (use arrow keys and Enter)
+2. Select **"Install"** (not Graphical Install)
 
-### Step 2: Language and Keyboard
-1. **Language:** English (or your preference)
-2. Click **"Continue"**
+### Step 2: Language and Location
+1. **Language:** English
+2. **Location:** Your country
+3. **Keymap:** Your keyboard layout
 
-### Step 3: Installation Summary Screen
-You'll see multiple configuration options. Configure them in this order:
+### Step 3: Network Configuration
+1. **Hostname:** Use your 42 login + "42" (e.g., `yoabied42`)
+2. **Domain name:** Leave empty or use default
+3. **Root password:** Choose a strong password (follow password policy)
+4. **Re-enter root password**
+5. **Full name for new user:** Your name
+6. **Username:** Your 42 login (e.g., `yoabied`)
+7. **Password:** Strong password (follow password policy)
 
-#### Network & Hostname
-1. Click **"Network & Host Name"**
-2. Turn on the Ethernet connection (toggle switch to ON)
-3. **Hostname:** Use your 42 login + "42" (e.g., `yoabied42`)
-4. Click **"Apply"**, then **"Done"**
-
-#### Time & Date
-1. Click **"Time & Date"**
-2. Select your region and city
-3. Click **"Done"**
-
-#### Root Password
-1. Click **"Root Password"**
-2. Set a strong password (follow password policy)
-3. Confirm the password
-4. Click **"Done"** (may need to click twice if weak password warning appears)
-
-#### User Creation
-1. Click **"User Creation"**
-2. **Full name:** Your name
-3. **Username:** Your 42 login (e.g., `yoabied`)
-4. **Make this user administrator:** CHECK this box
-5. Set a strong password
-6. Confirm the password
-7. Click **"Done"**
+### Step 4: Clock Configuration
+- Select your time zone
 
 ---
 
@@ -115,136 +99,146 @@ You'll see multiple configuration options. Configure them in this order:
 
 This is one of the most critical parts of the project. You need to create an encrypted LVM structure.
 
-### Step 1: Installation Destination
-1. Click **"Installation Destination"**
-2. Select your virtual hard disk
-3. **Storage Configuration:** Select **"Custom"**
-4. Click **"Done"**
+### Step 1: Partition Disks
+1. Select **"Manual"** partitioning method
 
-### Step 2: Manual Partitioning Screen
-1. You'll see the manual partitioning interface
-2. Select **"Standard Partition"** from the dropdown (change to LVM later)
-3. Click the **"+"** button to create partitions
+### Step 2: Create Boot Partition
+1. Select **"FREE SPACE"**
+2. **Create a new partition**
+3. **Size:** 500 MB (or 525 MB)
+4. **Type:** Primary
+5. **Location:** Beginning
+6. **Use as:** Ext4 journaling file system
+7. **Mount point:** /boot
+8. **Done setting up the partition**
 
-### Step 3: Create Boot Partition
-1. Click **"+"** to add a new mount point
-2. **Mount Point:** /boot
-3. **Desired Capacity:** 500 MB (or 1 GB for safety)
-4. Click **"Add mount point"**
-5. **Device Type:** Standard Partition
-6. **File System:** ext4
-7. Do NOT encrypt /boot
+### Step 3: Create Encrypted Volume
+1. Select remaining **"FREE SPACE"**
+2. **Create a new partition**
+3. **Size:** Maximum (use all remaining space)
+4. **Type:** Logical
+5. **Use as:** physical volume for encryption
+6. **Done setting up the partition**
+7. **Configure encrypted volumes** → Yes (write changes to disk)
+8. **Create encrypted volumes**
+9. Select the partition you just created (sda5 or similar)
+10. **Done setting up the partition**
+11. **Finish**
+12. **Yes** (write changes)
+13. **Encryption passphrase:** Strong passphrase (you'll need to enter this at boot)
+14. Re-enter the passphrase
 
-### Step 4: Create Encrypted LVM
-1. Click **"+"** to add a new mount point
-2. **Mount Point:** / (root)
-3. **Desired Capacity:** (leave blank for automatic - we'll configure inside LVM)
-4. Click **"Add mount point"**
-5. **Device Type:** Change to **"LVM"**
-6. **Volume Group:** Click "Modify" to configure
-7. **Name:** LVMGroup (or your login + "42" like `yoabied42`)
-8. **Encrypt:** CHECK the "Encrypt" checkbox
-9. **Encryption passphrase:** Enter a strong passphrase (you'll need this at boot)
-10. Confirm passphrase
-11. Click **"Save"**
+### Step 4: Configure LVM
+1. **Configure the Logical Volume Manager** → Yes (write changes)
+2. **Create volume group**
+3. **Volume group name:** LVMGroup (or your login + "42" like `yoabied42`)
+4. Select the encrypted partition (/dev/mapper/sda5_crypt or similar)
+5. **Create logical volumes** (create the following):
+   
+   **Mandatory Partitions:**
+   - **root**: 10 GB
+     - Logical volume name: root
+     - Volume group: LVMGroup
+     - Size: 10G
+   
+   - **swap**: 2.3 GB
+     - Logical volume name: swap
+     - Size: 2.3G
+   
+   - **home**: 5 GB
+     - Logical volume name: home
+     - Size: 5G
+   
+   - **var**: 3 GB
+     - Logical volume name: var
+     - Size: 3G
+   
+   - **srv**: 3 GB
+     - Logical volume name: srv
+     - Size: 3G
+   
+   - **tmp**: 3 GB
+     - Logical volume name: tmp
+     - Size: 3G
+   
+   - **var-log**: 4 GB (remaining space)
+     - Logical volume name: var-log
+     - Size: 4G or remaining
 
-### Step 5: Create Logical Volumes
-Now create logical volumes for each partition. Click **"+"** for each:
+6. **Finish** configuring LVM
 
-**Mandatory Partitions:**
+### Step 5: Format Logical Volumes
+For each logical volume you created:
 
-1. **root** - /
-   - Mount Point: /
-   - Desired Capacity: 10 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
+1. Select **"LV home"** under LVM VG LVMGroup
+   - **Use as:** Ext4 journaling file system
+   - **Mount point:** /home
+   - **Done setting up**
 
-2. **swap**
-   - Mount Point: swap
-   - Desired Capacity: 2.3 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: swap
+2. Select **"LV root"**
+   - **Use as:** Ext4 journaling file system
+   - **Mount point:** /
+   - **Done setting up**
 
-3. **home** - /home
-   - Mount Point: /home
-   - Desired Capacity: 5 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
+3. Select **"LV srv"**
+   - **Use as:** Ext4 journaling file system
+   - **Mount point:** /srv
+   - **Done setting up**
 
-4. **var** - /var
-   - Mount Point: /var
-   - Desired Capacity: 3 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
+4. Select **"LV swap"**
+   - **Use as:** swap area
+   - **Done setting up**
 
-5. **srv** - /srv
-   - Mount Point: /srv
-   - Desired Capacity: 3 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
+5. Select **"LV tmp"**
+   - **Use as:** Ext4 journaling file system
+   - **Mount point:** /tmp
+   - **Done setting up**
 
-6. **tmp** - /tmp
-   - Mount Point: /tmp
-   - Desired Capacity: 3 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
+6. Select **"LV var"**
+   - **Use as:** Ext4 journaling file system
+   - **Mount point:** /var
+   - **Done setting up**
 
-7. **var-log** - /var/log
-   - Mount Point: /var/log
-   - Desired Capacity: 4 GB (or remaining space)
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
+7. Select **"LV var-log"**
+   - **Use as:** Ext4 journaling file system
+   - **Mount point:** /var/log
+   - **Done setting up**
 
-### Step 6: Finalize Partitioning
-1. Review all partitions
-2. Click **"Done"**
-3. Review the "Summary of Changes"
-4. Click **"Accept Changes"**
+8. **Finish partitioning and write changes to disk** → Yes
 
-### Step 7: Software Selection
-1. Click **"Software Selection"**
-2. **Base Environment:** Select **"Minimal Install"**
-3. Do NOT select any add-ons (no GUI)
-4. Click **"Done"**
-
-### Step 8: Begin Installation
-1. Click **"Begin Installation"**
-2. Wait for installation to complete (10-20 minutes)
-3. Once complete, click **"Reboot System"**
-4. Remove the ISO when prompted
+### Step 6: Continue Installation
+1. **Scan extra installation media:** No
+2. **Debian archive mirror country:** Your country
+3. **Debian archive mirror:** deb.debian.org (or closest mirror)
+4. **HTTP proxy:** Leave empty (unless you need one)
+5. **Participate in package usage survey:** No
+6. **Software selection:** UNCHECK everything (no desktop environment, no print server)
+   - Only keep: "SSH server" and "standard system utilities"
+7. Wait for installation to complete
+8. **Install GRUB boot loader:** Yes
+9. **Device for boot loader:** /dev/sda
+10. **Installation complete** → Continue (it will reboot)
 
 ---
 
 ## System Configuration
 
-### Step 1: First Boot
+### Step 1: Login as Root
 ```bash
-# Enter encryption password at boot prompt
-# Login as root or your user
+# Enter encryption password at boot
+# Login as root
 ```
 
-### Step 2: Update System
+### Step 2: Install Required Packages
 ```bash
-# Login as root
-su -
-
-# Update all packages
-dnf update -y
-
-# Install required packages
-dnf install -y vim sudo firewalld
+apt update
+apt upgrade -y
+apt install sudo vim ufw libpam-pwquality -y
 ```
 
 ### Step 3: Check System Information
 ```bash
-# Verify Rocky Linux version
+# Verify Debian version
 cat /etc/os-release
 
 # Check partitions
@@ -270,8 +264,8 @@ getent group user42
 
 ### Step 2: Add User to Groups
 ```bash
-# Add your user to wheel (sudo) and user42 groups
-usermod -aG wheel,user42 <your_username>
+# Add your user to sudo and user42 groups
+usermod -aG sudo,user42 <your_username>
 
 # Verify user groups
 groups <your_username>
@@ -283,10 +277,7 @@ id <your_username>
 ### Step 3: Create New User (for evaluation)
 ```bash
 # Create a new user
-useradd <new_username>
-
-# Set password
-passwd <new_username>
+adduser <new_username>
 
 # Add to appropriate groups
 usermod -aG user42 <new_username>
@@ -298,10 +289,10 @@ groups <new_username>
 ### Step 4: Manage Users
 ```bash
 # Delete a user
-userdel <username>
+deluser <username>
 
 # Delete user and home directory
-userdel -r <username>
+deluser --remove-home <username>
 
 # Change user password
 passwd <username>
@@ -332,7 +323,7 @@ Defaults        log_input
 Defaults        log_output
 Defaults        iolog_dir="/var/log/sudo"
 Defaults        requiretty
-Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
 ```
 
 **Explanation:**
@@ -362,14 +353,8 @@ sudo cat /var/log/sudo/sudo.log
 
 ## SSH Configuration
 
-### Step 1: Install and Configure SSH
+### Step 1: Configure SSH
 ```bash
-# Install OpenSSH server
-sudo dnf install -y openssh-server
-
-# Enable SSH service
-sudo systemctl enable sshd
-
 # Edit SSH configuration file
 sudo vim /etc/ssh/sshd_config
 ```
@@ -388,10 +373,10 @@ PermitRootLogin no
 ### Step 3: Restart SSH Service
 ```bash
 # Restart SSH
-sudo systemctl restart sshd
+sudo systemctl restart ssh
 
 # Check SSH status
-sudo systemctl status sshd
+sudo systemctl status ssh
 
 # Verify SSH is listening on port 4242
 sudo ss -tunlp | grep 4242
@@ -418,88 +403,61 @@ ssh <your_username>@127.0.0.1 -p 4242
 
 ---
 
-## Firewalld Setup
+## UFW Firewall Setup
 
-### Step 1: Enable Firewalld
+### Step 1: Enable UFW
 ```bash
-# Start firewalld service
-sudo systemctl start firewalld
+# Enable UFW
+sudo ufw enable
 
-# Enable firewalld at boot
-sudo systemctl enable firewalld
-
-# Check status
-sudo systemctl status firewalld
+# Allow SSH on port 4242
+sudo ufw allow 4242
 ```
 
-### Step 2: Configure Firewall Rules
+### Step 2: Check Firewall Status
 ```bash
-# Remove SSH from services (we'll add custom port)
-sudo firewall-cmd --permanent --remove-service=ssh
-
-# Add SSH on port 4242
-sudo firewall-cmd --permanent --add-port=4242/tcp
-
-# Reload firewall to apply changes
-sudo firewall-cmd --reload
-
-# Verify configuration
-sudo firewall-cmd --list-all
-```
-
-### Step 3: Check Firewall Status
-```bash
-# Check active zones
-sudo firewall-cmd --get-active-zones
-
-# List all rules
-sudo firewall-cmd --list-all
+# Check UFW status
+sudo ufw status numbered
 
 # Should show:
-# ports: 4242/tcp
+# Status: active
+# To                         Action      From
+# --                         ------      ----
+# 4242                       ALLOW       Anywhere
+# 4242 (v6)                  ALLOW       Anywhere (v6)
 ```
 
-### Step 4: Manage Firewall Rules
+### Step 3: Manage Firewall Rules
 ```bash
-# Add a port
-sudo firewall-cmd --permanent --add-port=<port>/tcp
-sudo firewall-cmd --reload
+# Delete a rule (by number)
+sudo ufw delete <rule_number>
 
-# Remove a port
-sudo firewall-cmd --permanent --remove-port=<port>/tcp
-sudo firewall-cmd --reload
+# Allow a port
+sudo ufw allow <port_number>
 
-# Stop firewall
-sudo systemctl stop firewalld
+# Deny a port
+sudo ufw deny <port_number>
 
-# Disable firewall at boot
-sudo systemctl disable firewalld
+# Disable firewall
+sudo ufw disable
 ```
 
 ---
 
 ## Password Policy
 
-### Step 1: Install Password Quality Library
+### Step 1: Configure Password Quality Requirements
 ```bash
-# Install libpwquality
-sudo dnf install -y libpwquality
+# Edit PAM password quality configuration
+sudo vim /etc/pam.d/common-password
 ```
 
-### Step 2: Configure Password Quality Requirements
-```bash
-# Edit PAM password configuration
-sudo vim /etc/pam.d/system-auth
-```
-
-### Step 3: Modify Password Quality Settings
-Find the line with `pam_pwquality.so` and modify it (or add if it doesn't exist):
+### Step 2: Modify Password Quality Settings
+Find the line with `pam_pwquality.so` and modify it:
 
 ```bash
-password    requisite     pam_pwquality.so retry=3 minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=1 difok=7 enforce_for_root
+password        requisite                       pam_pwquality.so retry=3 minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root
 ```
-
-**Also edit** `/etc/pam.d/password-auth` with the same line.
 
 **Explanation:**
 - `retry=3`: Allow 3 password entry attempts
@@ -507,11 +465,11 @@ password    requisite     pam_pwquality.so retry=3 minlen=10 ucredit=-1 dcredit=
 - `ucredit=-1`: At least 1 uppercase letter required
 - `dcredit=-1`: At least 1 digit required
 - `maxrepeat=3`: No more than 3 consecutive identical characters
-- `usercheck=1`: Password cannot contain username
+- `reject_username`: Password cannot contain username
 - `difok=7`: At least 7 characters different from old password
 - `enforce_for_root`: Apply rules to root user as well
 
-### Step 4: Configure Password Aging
+### Step 3: Configure Password Aging
 ```bash
 # Edit login definitions
 sudo vim /etc/login.defs
@@ -530,7 +488,7 @@ PASS_WARN_AGE   7
 - `PASS_MIN_DAYS`: Minimum 2 days before password can be changed again
 - `PASS_WARN_AGE`: Warning 7 days before password expires
 
-### Step 5: Apply Password Policy to Existing Users
+### Step 4: Apply Password Policy to Existing Users
 ```bash
 # For your user
 sudo chage -M 30 -m 2 -W 7 <your_username>
@@ -542,7 +500,7 @@ sudo chage -M 30 -m 2 -W 7 root
 sudo chage -l <your_username>
 ```
 
-### Step 6: Change Passwords to Comply
+### Step 5: Change Passwords to Comply
 ```bash
 # Change root password (must follow new policy)
 sudo passwd root
@@ -605,8 +563,7 @@ ulog=$(users | wc -w)
 ip=$(hostname -I)
 mac=$(ip link | grep "link/ether" | awk '{print $2}')
 
-# Sudo commands (total count - note: this processes entire journal)
-# For better performance on systems with large journals, add: --since "1 day ago"
+# Sudo commands
 cmnd=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
 
 # Display information
@@ -644,17 +601,17 @@ sudo crontab -e
 
 ### Step 5: Manage Cron
 ```bash
-# Check if crond is running
-sudo systemctl status crond
+# Stop cron service
+sudo systemctl stop cron
 
-# Start crond service
-sudo systemctl start crond
+# Start cron service
+sudo systemctl start cron
 
-# Enable crond at boot
-sudo systemctl enable crond
+# Disable cron at boot (for defense)
+sudo systemctl disable cron
 
-# Disable crond at boot (for defense)
-sudo systemctl disable crond
+# Enable cron at boot
+sudo systemctl enable cron
 ```
 
 ---
@@ -664,26 +621,24 @@ sudo systemctl disable crond
 ### Prerequisites
 ```bash
 # Install required packages
-sudo dnf install -y httpd mariadb-server php php-mysqlnd php-fpm wget
+sudo apt install lighttpd mariadb-server php-cgi php-mysql wget -y
 ```
 
-### Step 1: Configure Apache (httpd)
+### Step 1: Configure Lighttpd
 ```bash
-# Start and enable Apache
-sudo systemctl start httpd
-sudo systemctl enable httpd
+# Enable required modules
+sudo lighty-enable-mod fastcgi
+sudo lighty-enable-mod fastcgi-php
+
+# Restart lighttpd
+sudo systemctl restart lighttpd
 
 # Allow HTTP port in firewall
-sudo firewall-cmd --permanent --add-port=80/tcp
-sudo firewall-cmd --reload
+sudo ufw allow 80
 ```
 
 ### Step 2: Configure MariaDB
 ```bash
-# Start and enable MariaDB
-sudo systemctl start mariadb
-sudo systemctl enable mariadb
-
 # Secure MariaDB installation
 sudo mysql_secure_installation
 
@@ -721,12 +676,8 @@ tar -xzvf latest.tar.gz
 sudo mv wordpress /var/www/html/
 
 # Set permissions
-sudo chown -R apache:apache /var/www/html/wordpress
+sudo chown -R www-data:www-data /var/www/html/wordpress
 sudo chmod -R 755 /var/www/html/wordpress
-
-# Configure SELinux contexts
-sudo chcon -t httpd_sys_rw_content_t /var/www/html/wordpress -R
-sudo setsebool -P httpd_can_network_connect_db 1
 ```
 
 ### Step 5: Configure WordPress
@@ -747,12 +698,11 @@ sudo vim wp-config.php
 
 ### Step 6: Additional Service Setup (for full bonus)
 ```bash
-# You can choose any service except NGINX or Lighttpd
+# You can choose any service except NGINX or Apache2
 # Examples: FTP, Redis, Fail2ban, etc.
 
 # Example: Install Fail2ban (intrusion prevention)
-sudo dnf install -y epel-release
-sudo dnf install -y fail2ban
+sudo apt install fail2ban -y
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
@@ -763,14 +713,14 @@ sudo systemctl start fail2ban
 
 ### System Information
 ```bash
-# Check Rocky Linux version
+# Check Debian version
 cat /etc/os-release
 
 # Check if desktop environment is installed (should return nothing)
-dnf grouplist | grep -i desktop
+ls /usr/bin/*session
 
-# Check SELinux is running
-sudo sestatus
+# Check AppArmor is running
+sudo aa-status
 ```
 
 ### Partition Verification
@@ -780,7 +730,7 @@ lsblk
 
 # Should show encrypted LVM structure with:
 # - sda1: /boot
-# - sda2: encrypted volume
+# - sda5: encrypted volume
 # - Multiple LV partitions under LVMGroup
 ```
 
@@ -788,7 +738,7 @@ lsblk
 ```bash
 # Check if user exists and is in correct groups
 groups <your_username>
-# Should show: wheel user42
+# Should show: sudo user42
 
 # Check all users
 cat /etc/passwd | cut -d: -f1
@@ -813,7 +763,7 @@ sudo cat /var/log/sudo/sudo.log
 ### SSH Verification
 ```bash
 # Check SSH is running on port 4242
-sudo systemctl status sshd
+sudo systemctl status ssh
 sudo ss -tunlp | grep 4242
 
 # Check root login is disabled
@@ -821,18 +771,18 @@ sudo grep "PermitRootLogin" /etc/ssh/sshd_config
 # Should show: PermitRootLogin no
 ```
 
-### Firewalld Verification
+### UFW Verification
 ```bash
-# Check firewalld status
-sudo firewall-cmd --list-all
+# Check UFW status
+sudo ufw status numbered
 
-# Should show only port 4242/tcp
+# Should show only port 4242 allowed
 ```
 
 ### Password Policy Verification
 ```bash
 # Check password quality settings
-sudo cat /etc/pam.d/system-auth | grep pam_pwquality
+sudo cat /etc/pam.d/common-password | grep pam_pwquality
 
 # Check password aging settings
 sudo cat /etc/login.defs | grep PASS_
@@ -872,8 +822,8 @@ lsblk                      # List block devices/partitions
 
 **User Management:**
 ```bash
-useradd <username>         # Create new user
-userdel <username>         # Delete user
+adduser <username>         # Create new user
+deluser <username>         # Delete user
 groups <username>          # Check user groups
 usermod -aG <group> <user> # Add user to group
 getent group <groupname>   # Check group members
@@ -894,24 +844,23 @@ sudo -l                    # List user's sudo privileges
 
 **SSH:**
 ```bash
-sudo systemctl status sshd # Check SSH status
+sudo systemctl status ssh  # Check SSH status
 sudo vim /etc/ssh/sshd_config  # Edit SSH config
-sudo systemctl restart sshd # Restart SSH service
+sudo systemctl restart ssh # Restart SSH service
 ```
 
-**Firewalld:**
+**UFW:**
 ```bash
-sudo firewall-cmd --list-all       # Show firewall rules
-sudo firewall-cmd --permanent --add-port=<port>/tcp  # Allow port
-sudo firewall-cmd --permanent --remove-port=<port>/tcp  # Remove port
-sudo firewall-cmd --reload         # Apply changes
+sudo ufw status numbered   # Show firewall rules
+sudo ufw allow <port>      # Allow port
+sudo ufw delete <number>   # Delete rule by number
 ```
 
 **Monitoring Script:**
 ```bash
 sudo crontab -l            # List cron jobs
 sudo crontab -e            # Edit cron jobs
-sudo systemctl status crond # Check cron status
+sudo systemctl status cron # Check cron status
 ```
 
 ### Questions to Prepare For
@@ -919,25 +868,25 @@ sudo systemctl status crond # Check cron status
 1. **What is a virtual machine?**
    - A virtual machine is a software-based emulation of a physical computer that runs an operating system and applications independently.
 
-2. **Why did you choose Rocky Linux?**
-   - Rocky Linux is enterprise-grade, community-driven, RHEL-compatible, stable, and has strong support for server environments. It's the successor to CentOS and maintains binary compatibility with RHEL.
+2. **Why did you choose Debian?**
+   - Debian is stable, secure, has extensive documentation, and is beginner-friendly. It's widely used in servers and has a strong community.
 
-3. **Difference between Rocky Linux and Debian?**
-   - Rocky: Uses DNF/YUM package manager, .rpm packages, RHEL-based, enterprise-focused
-   - Debian: Uses APT package manager, .deb packages, community-driven, larger repository
+3. **Difference between Debian and Rocky Linux?**
+   - Debian: Uses APT package manager, larger repository, community-driven
+   - Rocky: RHEL-based, uses DNF/YUM, enterprise-focused, different release cycle
 
-4. **What is SELinux?**
-   - Security-Enhanced Linux is a Linux kernel security module that provides label-based mandatory access control (MAC) mechanisms.
+4. **What is AppArmor?**
+   - AppArmor is a Linux kernel security module that restricts programs' capabilities using per-program profiles.
 
-5. **Difference between SELinux and AppArmor?**
-   - SELinux: Label-based, more complex, Red Hat default, more granular control
-   - AppArmor: Path-based, easier to configure, Debian/Ubuntu default, less granular
+5. **Difference between AppArmor and SELinux?**
+   - AppArmor: Path-based, easier to configure, Debian default
+   - SELinux: Label-based, more complex, Red Hat default, more granular
 
 6. **What is LVM?**
    - Logical Volume Manager allows flexible disk management, enabling resizing, snapshots, and easier partition management.
 
-7. **What is firewalld?**
-   - firewalld is a dynamic firewall management tool with support for network/firewall zones. It's the default on RHEL-based systems.
+7. **What is UFW?**
+   - Uncomplicated Firewall - a user-friendly frontend for iptables to manage firewall rules.
 
 8. **What is SSH?**
    - Secure Shell - a cryptographic network protocol for secure remote login and command execution.
@@ -958,7 +907,7 @@ sudo systemctl status crond # Check cron status
 - [ ] Know how to modify sudo timeout
 - [ ] Explain password policy rules
 - [ ] Show sudo logs
-- [ ] Demonstrate firewalld rule management
+- [ ] Demonstrate UFW rule management
 - [ ] Explain monitoring script line by line
 - [ ] Be able to modify cron schedule
 - [ ] Know how to stop/start services
@@ -982,14 +931,14 @@ sudo cp /etc/sudoers /etc/sudoers.backup
 ### Common Issues and Solutions
 
 **Issue: Can't sudo after configuration**
-- Boot into rescue mode
+- Boot into recovery mode
 - Remount root as read-write: `mount -o remount,rw /`
 - Fix sudoers: `visudo`
 
 **Issue: SSH connection refused**
-- Check if SSH is running: `sudo systemctl status sshd`
+- Check if SSH is running: `sudo systemctl status ssh`
 - Check port forwarding in VirtualBox settings
-- Verify firewall: `sudo firewall-cmd --list-all`
+- Verify firewall: `sudo ufw status`
 
 **Issue: Forgot encryption password**
 - Unfortunately, there's no recovery without the password
@@ -998,20 +947,14 @@ sudo cp /etc/sudoers /etc/sudoers.backup
 **Issue: Monitoring script not working**
 - Check script permissions: `ls -l /usr/local/bin/monitoring.sh`
 - Make executable: `sudo chmod +x /usr/local/bin/monitoring.sh`
-- Check crond is running: `sudo systemctl status crond`
-
-**Issue: SELinux blocking operations**
-- Check SELinux status: `sudo sestatus`
-- View denials: `sudo ausearch -m avc -ts recent`
-- Set to permissive mode temporarily: `sudo setenforce 0`
-- For permanent changes, modify booleans or create policies
+- Check cron is running: `sudo systemctl status cron`
 
 ---
 
 ## Conclusion
 
-This guide covers all mandatory and bonus requirements for the Born2BeRoot project using Rocky Linux. Follow each step carefully, understand what you're doing, and be prepared to explain your choices during the defense.
+This guide covers all mandatory and bonus requirements for the Born2BeRoot project. Follow each step carefully, understand what you're doing, and be prepared to explain your choices during the defense.
 
-Remember: The goal is not just to complete the project, but to understand system administration fundamentals in an enterprise Linux environment.
+Remember: The goal is not just to complete the project, but to understand system administration fundamentals.
 
 Good luck with your Born2BeRoot project! 🚀

@@ -2,6 +2,7 @@
 
 # Born2BeRoot Monitoring Script
 # This script displays system information every 10 minutes via wall command
+# Compatible with Rocky Linux, Debian, and other Linux distributions
 # To be placed in /usr/local/bin/monitoring.sh on the VM
 
 # System architecture and kernel version

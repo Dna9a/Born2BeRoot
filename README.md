@@ -5,7 +5,7 @@
 <div align="center">
   
 [![42 Project](https://img.shields.io/badge/42-Project-blue)](https://42.fr)
-[![Debian](https://img.shields.io/badge/Debian-Latest-red)](https://www.debian.org/)
+[![Rocky Linux](https://img.shields.io/badge/Rocky%20Linux-Latest-green)](https://rockylinux.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 </div>
@@ -21,17 +21,17 @@
 
 ## 🎯 About the Project
 
-Born2BeRoot is a system administration project from the 42 School curriculum that introduces students to virtualization, server configuration, and Linux system administration. The goal is to create a secure Debian virtual machine with strict configuration requirements.
+Born2BeRoot is a system administration project from the 42 School curriculum that introduces students to virtualization, server configuration, and Linux system administration. The goal is to create a secure Rocky Linux virtual machine with strict configuration requirements.
 
 ### What You'll Learn
 
 - Setting up a virtual machine with VirtualBox or UTM
-- Installing and configuring Debian Linux
+- Installing and configuring Rocky Linux
 - Partitioning with LVM and encryption
-- Implementing strong security policies
+- Implementing strong security policies with SELinux
 - Configuring SSH, sudo, and firewall rules
 - Creating system monitoring scripts
-- Understanding system administration fundamentals
+- Understanding enterprise Linux system administration
 
 ## 🚀 Getting Started
 
@@ -62,13 +62,13 @@ This repository contains all the resources you need to complete the Born2BeRoot 
    - Expected `lsblk` output
    - Tips for managing partitions
 
-6. **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Problem solving guide
+5. **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Problem solving guide
    - Common issues and solutions
    - Emergency recovery procedures
    - Debugging commands
    - Prevention tips
 
-7. **[monitoring.sh](monitoring.sh)** - The monitoring script
+6. **[monitoring.sh](monitoring.sh)** - The monitoring script
    - Ready-to-use monitoring script
    - Copy to your VM: `/usr/local/bin/monitoring.sh`
    - Displays system information every 10 minutes
@@ -77,7 +77,7 @@ This repository contains all the resources you need to complete the Born2BeRoot 
 
 1. **Download required software:**
    - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-   - [Debian ISO (netinst)](https://www.debian.org/distrib/)
+   - [Rocky Linux ISO (Minimal)](https://rockylinux.org/download)
 
 2. **Follow the guide:**
    ```bash
@@ -92,8 +92,8 @@ This repository contains all the resources you need to complete the Born2BeRoot 
    ```
 
 3. **Set up your VM:**
-   - Create VM in VirtualBox (30 GB disk, 1 GB RAM)
-   - Install Debian (no GUI)
+   - Create VM in VirtualBox (30 GB disk, 2 GB RAM)
+   - Install Rocky Linux (no GUI - Minimal Install)
    - Configure LVM with encryption
    - Apply security policies
 
@@ -104,13 +104,13 @@ This repository contains all the resources you need to complete the Born2BeRoot 
 The complete guide covers everything you need chronologically:
 
 1. **Virtual Machine Setup** - Creating and configuring the VM
-2. **Debian Installation** - Step-by-step OS installation
+2. **Rocky Linux Installation** - Step-by-step OS installation
 3. **Partition Configuration** - LVM with encrypted partitions
 4. **System Configuration** - Initial system setup
 5. **User and Group Management** - Creating users and groups
 6. **Sudo Configuration** - Strict sudo rules and logging
 7. **SSH Configuration** - Secure SSH on port 4242
-8. **UFW Firewall Setup** - Configuring the firewall
+8. **Firewalld Setup** - Configuring the firewall
 9. **Password Policy** - Strong password requirements
 10. **Monitoring Script** - System monitoring automation
 11. **Bonus: WordPress** - Web server setup (optional)
@@ -125,7 +125,7 @@ Quick access to all commands you'll need:
 - Password management
 - Sudo configuration
 - SSH management
-- UFW firewall commands
+- Firewalld commands
 - System information
 - Service management
 - Defense Q&A
@@ -136,10 +136,10 @@ Quick access to all commands you'll need:
 ### Mandatory Requirements
 
 - ✅ Virtual machine using VirtualBox or UTM
-- ✅ Latest stable Debian (no graphical interface)
+- ✅ Latest stable Rocky Linux (no graphical interface)
 - ✅ LVM with at least 2 encrypted partitions
 - ✅ SSH service on port 4242 only
-- ✅ UFW firewall configured
+- ✅ firewalld configured
 - ✅ Strong password policy implemented
 - ✅ Sudo configured with strict rules
 - ✅ Monitoring script displaying system info every 10 minutes
@@ -147,59 +147,60 @@ Quick access to all commands you'll need:
 ### Bonus Requirements
 
 - ✅ Complex partition structure (multiple logical volumes)
-- ✅ WordPress website with Lighttpd, MariaDB, and PHP
+- ✅ WordPress website with Apache (httpd), MariaDB, and PHP
 - ✅ Additional useful service (FTP, Fail2ban, etc.)
 
 ## 🔧 Design Choices
 
-### Operating System: Debian
+### Operating System: Rocky Linux
 
-**Chosen:** Debian 12 (Bookworm) - Latest stable version
+**Chosen:** Rocky Linux 9 - Latest stable version
 
 **Reasons:**
-- **Stability:** Known for rock-solid stability
-- **Security:** Strong security track record
-- **Documentation:** Extensive documentation and community support
-- **Beginner-friendly:** Easier learning curve for newcomers
-- **Package Management:** APT is straightforward and well-documented
+- **Enterprise-grade:** Binary compatible with RHEL
+- **Stability:** Rock-solid reliability for production use
+- **Community-driven:** Strong community support post-CentOS
+- **SELinux:** Advanced security features built-in
+- **Package Management:** DNF/YUM is industry-standard for enterprise
 
-**Debian vs Rocky Linux:**
+**Rocky Linux vs Debian:**
 
-| Aspect | Debian | Rocky Linux |
-|--------|--------|-------------|
-| Purpose | General-purpose, community-driven | Enterprise server, RHEL clone |
-| Package Manager | APT (.deb) | DNF/YUM (.rpm) |
-| Release Cycle | When ready | Fixed schedule |
-| Community | Large, diverse | Smaller, enterprise-focused |
-| Learning Curve | Easier | Steeper |
+| Aspect | Rocky Linux | Debian |
+|--------|-------------|--------|
+| Purpose | Enterprise server, RHEL clone | General-purpose, community-driven |
+| Package Manager | DNF/YUM (.rpm) | APT (.deb) |
+| Release Cycle | Fixed schedule | When ready |
+| Community | Enterprise-focused | Large, diverse |
+| Learning Curve | Steeper | Easier |
+| SELinux | Default | Optional |
 
-### Security Module: AppArmor
+### Security Module: SELinux
 
-**Chosen:** AppArmor (Debian default)
+**Chosen:** SELinux (Rocky Linux default)
 
-**AppArmor vs SELinux:**
+**SELinux vs AppArmor:**
 
-| Aspect | AppArmor | SELinux |
-|--------|----------|---------|
-| Access Control | Path-based | Label-based |
-| Complexity | Simpler configuration | More complex |
-| Default OS | Debian/Ubuntu | RHEL/CentOS |
-| Granularity | Less granular | More granular |
-| Learning Curve | Easier | Steeper |
+| Aspect | SELinux | AppArmor |
+|--------|---------|----------|
+| Access Control | Label-based | Path-based |
+| Complexity | More complex | Simpler configuration |
+| Default OS | RHEL/CentOS/Rocky | Debian/Ubuntu |
+| Granularity | More granular | Less granular |
+| Learning Curve | Steeper | Easier |
 
-### Firewall: UFW
+### Firewall: firewalld
 
-**Chosen:** UFW (Uncomplicated Firewall)
+**Chosen:** firewalld (Rocky Linux default)
 
-**UFW vs firewalld:**
+**firewalld vs UFW:**
 
-| Aspect | UFW | firewalld |
-|--------|-----|-----------|
-| Interface | Simple, user-friendly | Feature-rich, complex |
-| Default OS | Debian/Ubuntu | RHEL/CentOS |
-| Zone Concept | Single zone | Multiple zones |
-| Rule Management | Static | Dynamic |
-| Ease of Use | Very easy | Moderate |
+| Aspect | firewalld | UFW |
+|--------|-----------|-----|
+| Interface | Feature-rich, complex | Simple, user-friendly |
+| Default OS | RHEL/CentOS/Rocky | Debian/Ubuntu |
+| Zone Concept | Multiple zones | Single zone |
+| Rule Management | Dynamic | Static |
+| Ease of Use | Moderate | Very easy |
 
 ### Virtualization: VirtualBox
 
@@ -221,7 +222,7 @@ Quick access to all commands you'll need:
 
 **Partitions:**
 - `/boot` (500 MB) - Unencrypted, for bootloader
-- `sda5` (encrypted) - Contains LVM physical volume
+- `sda2` (encrypted) - Contains LVM physical volume
   - `root` (10 GB) - System files
   - `swap` (2.3 GB) - Swap space
   - `home` (5 GB) - User home directories
@@ -239,25 +240,27 @@ Quick access to all commands you'll need:
 ## 📖 Resources
 
 ### Official Documentation
-- [Debian Official Documentation](https://www.debian.org/doc/)
+- [Rocky Linux Documentation](https://docs.rockylinux.org/)
 - [VirtualBox Documentation](https://www.virtualbox.org/wiki/Documentation)
-- [Linux man pages](https://man7.org/linux/man-pages/)
+- [SELinux Project](https://github.com/SELinuxProject)
+- [firewalld Documentation](https://firewalld.org/documentation/)
 
 ### Useful Guides
 - [SSH Configuration](https://www.ssh.com/academy/ssh/config)
-- [UFW Guide](https://help.ubuntu.com/community/UFW)
+- [firewalld Guide](https://firewalld.org/)
 - [Sudo Manual](https://www.sudo.ws/docs/man/sudo.man/)
 - [LVM Documentation](https://tldp.org/HOWTO/LVM-HOWTO/)
+- [SELinux User Guide](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/using_selinux/)
 
 ### 42 School
 - [42 School](https://42.fr)
-- [Born2BeRoot Subject](https://github.com/pasqualerossi/Born2BeRoot-Guide)
+- [Born2BeRoot Project](https://github.com/topics/born2beroot)
 
 ## 🎓 Defense Tips
 
 1. **Understand, don't memorize** - Know why each configuration exists
 2. **Practice commands** - Be comfortable with all operations
-3. **Explain your choices** - Justify why you chose Debian, LVM structure, etc.
+3. **Explain your choices** - Justify why you chose Rocky Linux, LVM structure, etc.
 4. **Test everything** - Ensure all requirements work before evaluation
 5. **Know the monitoring script** - Understand every line
 6. **Be ready to modify** - Practice changing hostname, creating users, etc.
@@ -267,9 +270,9 @@ Quick access to all commands you'll need:
 Before your evaluation, verify:
 
 - [ ] Hostname follows format (login42)
-- [ ] UFW is active with only required ports open
+- [ ] firewalld is active with only required ports open
 - [ ] SSH works on port 4242 (root login disabled)
-- [ ] User is in correct groups (sudo, user42)
+- [ ] User is in correct groups (wheel, user42)
 - [ ] Password policy is enforced
 - [ ] Sudo logs are working
 - [ ] Monitoring script broadcasts every 10 minutes
@@ -277,6 +280,7 @@ Before your evaluation, verify:
 - [ ] Can modify hostname
 - [ ] Understand partition structure
 - [ ] Can explain all design choices
+- [ ] SELinux is enforcing
 
 ## 🤝 Contributing
 
@@ -292,6 +296,6 @@ This project is open source and available under the MIT License.
 
 ---
 
-*This guide is designed to help you understand and complete the Born2BeRoot project. Read thoroughly, understand each step, and good luck with your evaluation!* 🚀
+*This guide is designed to help you understand and complete the Born2BeRoot project using Rocky Linux. Read thoroughly, understand each step, and good luck with your evaluation!* 🚀
 
 ![Born2BeRoot](https://media.licdn.com/dms/image/v2/D5622AQG9dFW02IU-9A/feedshare-shrink_800/B56ZbYPI9nGoAo-/0/1747384573418?e=2147483647&v=beta&t=m3boBsHH2ilW3Tp01yPlAEz0wWAruQxbOWOQ-2MtaVo)

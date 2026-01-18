@@ -1,6 +1,6 @@
-# Born2BeRoot Troubleshooting Guide
+# Born2BeRoot Troubleshooting Guide - Rocky Linux Edition
 
-This guide covers common issues you might encounter during the Born2BeRoot project and their solutions.
+This guide covers common issues you might encounter during the Born2BeRoot project using Rocky Linux and their solutions.
 
 ## Table of Contents
 - [Installation Issues](#installation-issues)
@@ -8,7 +8,7 @@ This guide covers common issues you might encounter during the Born2BeRoot proje
 - [User and Permission Issues](#user-and-permission-issues)
 - [Sudo Issues](#sudo-issues)
 - [SSH Issues](#ssh-issues)
-- [UFW Firewall Issues](#ufw-firewall-issues)
+- [Firewalld Issues](#firewalld-issues)
 - [Password Policy Issues](#password-policy-issues)
 - [Monitoring Script Issues](#monitoring-script-issues)
 - [Network Issues](#network-issues)
@@ -23,23 +23,22 @@ This guide covers common issues you might encounter during the Born2BeRoot proje
 **Symptoms:** Installation fails with kernel error
 
 **Solutions:**
-1. Re-download the Debian ISO (file may be corrupted)
-2. Verify the ISO checksum
-3. Use the netinst version instead of full ISO
-4. Check VM settings - ensure enough RAM (1 GB minimum)
+1. Re-download the Rocky Linux ISO (file may be corrupted)
+2. Verify the ISO checksum from Rocky Linux website
+3. Use the Minimal or Boot ISO version
+4. Check VM settings - ensure enough RAM (2 GB minimum for Rocky)
 
 ### Issue: Can't find network mirrors
-**Symptoms:** Package manager can't connect to mirrors
+**Symptoms:** Package manager can't connect during installation
 
 **Solutions:**
-1. Skip mirror configuration and continue
-2. After installation, manually configure with:
+1. Ensure network adapter is enabled in Installation Summary
+2. Turn ON the ethernet switch in Network & Hostname
+3. After installation, check network:
    ```bash
-   sudo vim /etc/apt/sources.list
-   # Add (replace 'bookworm' with your Debian version - check with 'cat /etc/os-release'):
-   deb http://deb.debian.org/debian/ bookworm main
-   deb-src http://deb.debian.org/debian/ bookworm main
-   sudo apt update
+   ip a
+   sudo nmcli device status
+   sudo nmcli connection up <connection-name>
    ```
 
 ### Issue: Installation freezes during package installation
@@ -71,10 +70,10 @@ This guide covers common issues you might encounter during the Born2BeRoot proje
 **Symptoms:** Option for encryption is grayed out or not working
 
 **Solutions:**
-1. Ensure you're using "Manual" partitioning
-2. Create a logical partition (not primary) for encryption
-3. Select "physical volume for encryption" not "physical volume for LVM"
-4. Follow the correct order: Create partition → Configure encryption → Configure LVM
+1. In Installation Destination, choose "Custom" storage configuration
+2. When adding mount points, check the "Encrypt my data" checkbox
+3. Rocky installer will prompt for encryption passphrase
+4. Ensure you're creating LVM volumes, not standard partitions (except /boot)
 
 ### Issue: LVM partitions not showing up
 **Symptoms:** After creating LVM, partitions aren't visible
@@ -122,8 +121,8 @@ sudo find / -type f -size +100M 2>/dev/null
 # Switch to root
 su -
 
-# Add user to sudo group
-usermod -aG sudo <username>
+# Add user to wheel group (Rocky's sudo group)
+usermod -aG wheel <username>
 
 # Verify
 groups <username>
@@ -218,7 +217,7 @@ sudo cat /var/log/sudo/sudo.log
 ```
 
 ### Issue: "Sorry, user X may not run sudo on hostname"
-**Symptoms:** User can't use sudo despite being in sudo group
+**Symptoms:** User can't use sudo despite being in wheel group
 
 **Solutions:**
 ```bash
@@ -226,11 +225,11 @@ sudo cat /var/log/sudo/sudo.log
 su -
 groups <username>
 
-# Add to sudo group if missing
-usermod -aG sudo <username>
+# Add to wheel group if missing
+usermod -aG wheel <username>
 
 # Force group file refresh
-newgrp sudo
+newgrp wheel
 
 # User must logout and login again
 exit
@@ -247,22 +246,23 @@ su - <username>
 **Solutions:**
 ```bash
 # Check if SSH is running
-sudo systemctl status ssh
+sudo systemctl status sshd
 
 # If not running, start it
-sudo systemctl start ssh
+sudo systemctl start sshd
 
 # Enable at boot
-sudo systemctl enable ssh
+sudo systemctl enable sshd
 
 # Check if listening on correct port
 sudo ss -tunlp | grep 4242
 
 # Check firewall
-sudo ufw status
+sudo firewall-cmd --list-all
 
 # Allow SSH port if blocked
-sudo ufw allow 4242
+sudo firewall-cmd --permanent --add-port=4242/tcp
+sudo firewall-cmd --reload
 ```
 
 ### Issue: "Port 4242 already in use"
@@ -272,13 +272,13 @@ sudo ufw allow 4242
 ```bash
 # Check what's using the port
 sudo lsof -i :4242
-sudo netstat -tulpn | grep 4242
+sudo ss -tulpn | grep 4242
 
 # Kill the process using the port
-sudo kill -9 <PID>
+sudo kill <PID>
 
 # Restart SSH
-sudo systemctl restart ssh
+sudo systemctl restart sshd
 ```
 
 ### Issue: VirtualBox port forwarding not working
@@ -315,55 +315,76 @@ ssh username@localhost -p 4242
 
 ---
 
-## UFW Firewall Issues
+## Firewalld Issues
 
-### Issue: UFW rules not persisting after reboot
+### Issue: Firewalld rules not persisting after reboot
 **Symptoms:** Firewall rules disappear after restart
 
 **Solutions:**
 ```bash
-# Enable UFW
-sudo ufw enable
+# Always use --permanent flag
+sudo firewall-cmd --permanent --add-port=4242/tcp
+sudo firewall-cmd --reload
 
-# Make sure it's set to start at boot
-sudo systemctl enable ufw
+# Make sure firewalld is enabled at boot
+sudo systemctl enable firewalld
 
 # Check status
-sudo systemctl status ufw
+sudo systemctl status firewalld
 ```
 
-### Issue: Locked out after enabling UFW
+### Issue: Locked out after enabling firewalld
 **Symptoms:** Can't SSH after enabling firewall
 
 **Solutions:**
 1. Access VM directly (not via SSH)
 2. Allow SSH port:
    ```bash
-   sudo ufw allow 4242
+   sudo firewall-cmd --permanent --add-port=4242/tcp
+   sudo firewall-cmd --reload
    ```
-3. Or disable UFW temporarily:
+3. Or disable firewalld temporarily:
    ```bash
-   sudo ufw disable
-   sudo ufw allow 4242
-   sudo ufw enable
+   sudo systemctl stop firewalld
+   sudo firewall-cmd --permanent --add-port=4242/tcp
+   sudo systemctl start firewalld
    ```
 
-### Issue: Can't delete UFW rule
+### Issue: Can't delete firewalld rule
 **Symptoms:** Delete command doesn't work
 
 **Solutions:**
 ```bash
-# List rules with numbers
-sudo ufw status numbered
+# List all rules
+sudo firewall-cmd --list-all
 
-# Delete by number
-sudo ufw delete <number>
+# Remove specific port
+sudo firewall-cmd --permanent --remove-port=4242/tcp
+sudo firewall-cmd --reload
 
-# Or delete by specification
-sudo ufw delete allow 4242
+# Remove specific service
+sudo firewall-cmd --permanent --remove-service=ssh
+sudo firewall-cmd --reload
 
-# Reset all rules (careful!)
-sudo ufw reset
+# Reset to default (careful!)
+sudo firewall-cmd --complete-reload
+```
+
+### Issue: Firewalld not starting
+**Symptoms:** Service fails to start
+
+**Solutions:**
+```bash
+# Check for errors
+sudo systemctl status firewalld
+sudo journalctl -u firewalld -n 50
+
+# Reinstall if corrupted
+sudo dnf reinstall firewalld -y
+
+# Reset configuration
+sudo rm -rf /etc/firewalld/zones/*
+sudo firewall-cmd --reload
 ```
 
 ---
@@ -401,11 +422,11 @@ aaaa1234       # More than 3 consecutive same characters
 
 **Solution:**
 ```bash
-# Edit PAM configuration
-sudo vim /etc/pam.d/common-password
+# Edit password quality configuration
+sudo vim /etc/security/pwquality.conf
 
-# Ensure enforce_for_root is present:
-password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root
+# Ensure enforce_for_root is present (uncommented):
+enforce_for_root
 ```
 
 ### Issue: Existing users not following password policy
@@ -419,6 +440,25 @@ sudo chage -d 0 <username>
 # Or change password manually
 sudo passwd <username>
 # (New password must meet policy)
+```
+
+### Issue: Password quality module not working
+**Symptoms:** Weak passwords are accepted
+
+**Solutions:**
+```bash
+# Check if libpwquality is installed
+rpm -q libpwquality
+
+# Install if missing
+sudo dnf install libpwquality -y
+
+# Verify configuration
+sudo cat /etc/security/pwquality.conf | grep -v "^#" | grep -v "^$"
+
+# Test password quality
+pwscore
+# Type a password and press Ctrl+D to see its score
 ```
 
 ---
@@ -440,7 +480,7 @@ sudo chmod +x /usr/local/bin/monitoring.sh
 sudo /usr/local/bin/monitoring.sh
 
 # Check cron is running
-sudo systemctl status cron
+sudo systemctl status crond
 
 # Check cron jobs
 sudo crontab -l
@@ -460,10 +500,10 @@ sudo /usr/local/bin/monitoring.sh
 
 # Common fixes:
 # If vmstat not found:
-sudo apt install procps
+sudo dnf install procps-ng -y
 
 # If wall not found:
-sudo apt install bsdutils
+sudo dnf install util-linux -y
 
 # Check script syntax
 bash -n /usr/local/bin/monitoring.sh
@@ -475,7 +515,8 @@ bash -n /usr/local/bin/monitoring.sh
 **Solutions:**
 ```bash
 # Check cron logs
-sudo grep CRON /var/log/syslog
+sudo grep CRON /var/log/cron
+sudo journalctl -u crond
 
 # Ensure script path is absolute
 sudo crontab -e
@@ -505,7 +546,7 @@ which ss
 which free
 
 # Install missing tools
-sudo apt install procps net-tools
+sudo dnf install procps-ng net-tools -y
 ```
 
 ---
@@ -522,12 +563,13 @@ sudo apt install procps net-tools
    ```bash
    # Check network interfaces
    ip a
+   nmcli device status
    
    # Restart networking
-   sudo systemctl restart networking
+   sudo systemctl restart NetworkManager
    
    # Check if interface is up
-   sudo ip link set <interface> up
+   sudo nmcli connection up <connection-name>
    
    # Test connectivity
    ping -c 4 8.8.8.8
@@ -542,14 +584,17 @@ sudo apt install procps net-tools
 # Check DNS configuration
 cat /etc/resolv.conf
 
-# If empty or wrong, edit it:
-sudo vim /etc/resolv.conf
-# Add:
-nameserver 8.8.8.8
-nameserver 8.8.4.4
+# If empty or wrong, configure with NetworkManager:
+sudo nmcli connection modify <connection-name> ipv4.dns "8.8.8.8 8.8.4.4"
+sudo nmcli connection down <connection-name>
+sudo nmcli connection up <connection-name>
 
-# Or use systemd-resolved
-sudo systemctl restart systemd-resolved
+# Or edit resolv.conf directly (temporary):
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
+
+# Restart NetworkManager
+sudo systemctl restart NetworkManager
 ```
 
 ---
@@ -566,6 +611,7 @@ sudo systemctl status mariadb
 
 # Start if stopped
 sudo systemctl start mariadb
+sudo systemctl enable mariadb
 
 # Verify database exists
 sudo mysql -u root -p
@@ -576,6 +622,10 @@ EXIT;
 # Check wp-config.php settings
 sudo cat /var/www/html/wordpress/wp-config.php | grep DB_
 # Ensure DB_NAME, DB_USER, DB_PASSWORD match your MariaDB setup
+
+# Check SELinux context
+sudo ls -Z /var/www/html/wordpress/
+sudo restorecon -Rv /var/www/html/
 ```
 
 ### Issue: Lighttpd not starting
@@ -583,19 +633,24 @@ sudo cat /var/www/html/wordpress/wp-config.php | grep DB_
 
 **Solutions:**
 ```bash
-# Check for errors
-sudo systemctl status lighttpd
-sudo journalctl -u lighttpd -n 50
+# Check for errors (Rocky uses httpd/Apache)
+sudo systemctl status httpd
+sudo journalctl -u httpd -n 50
 
 # Common issue: Port 80 already in use
 sudo ss -tulpn | grep :80
 
-# Kill process using port 80
-sudo systemctl stop apache2  # If Apache is running
-sudo lsof -ti:80 | xargs sudo kill -9
+# Kill process using port 80 (find PID first)
+sudo lsof -ti:80
+sudo kill <PID>
 
-# Restart lighttpd
-sudo systemctl restart lighttpd
+# Check SELinux is not blocking
+sudo ausearch -m AVC -ts recent
+sudo setsebool -P httpd_can_network_connect 1
+
+# Restart httpd
+sudo systemctl restart httpd
+sudo systemctl enable httpd
 ```
 
 ---
@@ -606,13 +661,15 @@ sudo systemctl restart lighttpd
 **Symptoms:** Stuck at boot, kernel panic, or boot loop
 
 **Solutions:**
-1. **Boot into recovery mode:**
-   - At GRUB menu, select "Advanced options"
-   - Select recovery mode
+1. **Boot into rescue mode:**
+   - At GRUB menu, press 'e' for edit
+   - Add `rd.break` to kernel line
+   - Press Ctrl+X to boot
    
 2. **Mount filesystem:**
    ```bash
-   mount -o remount,rw /
+   mount -o remount,rw /sysroot
+   chroot /sysroot
    ```
 
 3. **Check recent changes:**
@@ -636,14 +693,17 @@ df -h
 sudo du -h --max-depth=1 / | sort -h
 
 # Clean package cache
-sudo apt clean
-sudo apt autoclean
+sudo dnf clean all
 
 # Clean old logs
 sudo journalctl --vacuum-time=7d
 
 # Find and remove large files
 sudo find / -type f -size +100M 2>/dev/null
+
+# Clear temporary files
+sudo rm -rf /tmp/*
+sudo rm -rf /var/tmp/*
 ```
 
 ### Issue: Command not found
@@ -669,20 +729,21 @@ echo 'export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 ### If System is Completely Broken
 
-1. **Boot from Debian installer ISO**
-2. **Select "Rescue mode"**
+1. **Boot from Rocky Linux installer ISO**
+2. **Select "Troubleshooting" → "Rescue a Rocky Linux system"**
 3. **Enter encryption password**
-4. **Select root partition (/) to mount**
-5. **Choose "Execute a shell in the installer environment"**
-6. **Mount all partitions:**
+4. **Select shell option**
+5. **Mount all partitions:**
    ```bash
-   mount /dev/LVMGroup/var
-   mount /dev/LVMGroup/var-log
-   mount /dev/LVMGroup/tmp
-   mount /dev/LVMGroup/home
+   chroot /mnt/sysimage
+   mount -a
    ```
-7. **Fix the issue (restore configs, reinstall GRUB, etc.)**
-8. **Reboot**
+6. **Fix the issue (restore configs, reinstall GRUB, etc.)**
+7. **Exit and reboot:**
+   ```bash
+   exit
+   reboot
+   ```
 
 ### Creating Backups (Prevention)
 
@@ -733,11 +794,14 @@ htop
 
 ### Log Files to Check
 
-- `/var/log/syslog` - General system logs
-- `/var/log/auth.log` - Authentication logs
+- `/var/log/messages` - General system logs
+- `/var/log/secure` - Authentication logs
 - `/var/log/sudo/sudo.log` - Sudo command logs
-- `/var/log/kern.log` - Kernel logs
+- `/var/log/cron` - Cron logs
+- `/var/log/firewalld` - Firewall logs
+- `/var/log/audit/audit.log` - SELinux audit logs
 - `journalctl -xe` - Systemd logs
+- `journalctl -u <service>` - Specific service logs
 
 ---
 

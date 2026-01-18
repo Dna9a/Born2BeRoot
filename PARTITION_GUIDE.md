@@ -1,8 +1,8 @@
-# Born2BeRoot Partition Structure
+# Born2BeRoot Partition Structure - Rocky Linux Edition
 
 ## Disk Layout Overview
 
-This document provides a visual representation of the disk partitioning structure for the Born2BeRoot project.
+This document provides a visual representation of the disk partitioning structure for the Born2BeRoot project using Rocky Linux.
 
 ## Physical Disk Structure
 
@@ -13,21 +13,21 @@ This document provides a visual representation of the disk partitioning structur
 ├─────────────────────────────────────────────────────────┤
 │                                                          │
 │  ┌────────────────────────────────────────────────┐    │
-│  │         sda1 - /boot (500 MB)                  │    │
-│  │         Primary Partition                       │    │
-│  │         Type: Ext4                              │    │
+│  │         sda1 - /boot (1 GB)                    │    │
+│  │         Standard Partition                      │    │
+│  │         Type: XFS (Rocky default)              │    │
 │  │         NOT Encrypted                           │    │
 │  └────────────────────────────────────────────────┘    │
 │                                                          │
 │  ┌────────────────────────────────────────────────┐    │
-│  │         sda5 - Extended Partition              │    │
-│  │         (~29.5 GB)                             │    │
+│  │         sda2 - LVM Partition                   │    │
+│  │         (~29 GB)                               │    │
 │  │         Type: Encrypted (LUKS)                 │    │
-│  │         Maps to: /dev/mapper/sda5_crypt        │    │
+│  │         Maps to: /dev/mapper/luks-xxxx         │    │
 │  │                                                 │    │
 │  │  ┌──────────────────────────────────────────┐ │    │
 │  │  │      LVM Physical Volume (PV)            │ │    │
-│  │  │      Contains LVMGroup                   │ │    │
+│  │  │      Contains Volume Group (rl)          │ │    │
 │  │  └──────────────────────────────────────────┘ │    │
 │  └────────────────────────────────────────────────┘    │
 │                                                          │
@@ -38,12 +38,12 @@ This document provides a visual representation of the disk partitioning structur
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│         Volume Group: LVMGroup (~29.5 GB)                │
+│         Volume Group: rl (~29 GB)                        │
 ├──────────────────────────────────────────────────────────┤
 │                                                           │
 │  ┌──────────────────────────────────────────────────┐   │
 │  │  LV root - / (10 GB)                             │   │
-│  │  Type: Ext4                                       │   │
+│  │  Type: XFS (Rocky default)                       │   │
 │  │  Usage: System files, programs                    │   │
 │  └──────────────────────────────────────────────────┘   │
 │                                                           │
@@ -55,31 +55,31 @@ This document provides a visual representation of the disk partitioning structur
 │                                                           │
 │  ┌──────────────────────────────────────────────────┐   │
 │  │  LV home - /home (5 GB)                          │   │
-│  │  Type: Ext4                                       │   │
+│  │  Type: XFS                                        │   │
 │  │  Usage: User home directories                     │   │
 │  └──────────────────────────────────────────────────┘   │
 │                                                           │
 │  ┌──────────────────────────────────────────────────┐   │
 │  │  LV var - /var (3 GB)                            │   │
-│  │  Type: Ext4                                       │   │
+│  │  Type: XFS                                        │   │
 │  │  Usage: Variable data, caches                     │   │
 │  └──────────────────────────────────────────────────┘   │
 │                                                           │
 │  ┌──────────────────────────────────────────────────┐   │
 │  │  LV srv - /srv (3 GB)                            │   │
-│  │  Type: Ext4                                       │   │
+│  │  Type: XFS                                        │   │
 │  │  Usage: Service data (WordPress for bonus)       │   │
 │  └──────────────────────────────────────────────────┘   │
 │                                                           │
 │  ┌──────────────────────────────────────────────────┐   │
 │  │  LV tmp - /tmp (3 GB)                            │   │
-│  │  Type: Ext4                                       │   │
+│  │  Type: XFS                                        │   │
 │  │  Usage: Temporary files                           │   │
 │  └──────────────────────────────────────────────────┘   │
 │                                                           │
 │  ┌──────────────────────────────────────────────────┐   │
 │  │  LV var-log - /var/log (4 GB)                    │   │
-│  │  Type: Ext4                                       │   │
+│  │  Type: XFS                                        │   │
 │  │  Usage: System logs                               │   │
 │  └──────────────────────────────────────────────────┘   │
 │                                                           │
@@ -91,35 +91,36 @@ This document provides a visual representation of the disk partitioning structur
 After completing the installation, running `lsblk` should produce output similar to:
 
 ```
-NAME                    MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
-sda                       8:0    0   30G  0 disk
-├─sda1                    8:1    0  500M  0 part  /boot
-├─sda2                    8:2    0    1K  0 part
-└─sda5                    8:5    0 29.5G  0 part
-  └─sda5_crypt          254:0    0 29.5G  0 crypt
-    ├─LVMGroup-root     254:1    0   10G  0 lvm   /
-    ├─LVMGroup-swap     254:2    0  2.3G  0 lvm   [SWAP]
-    ├─LVMGroup-home     254:3    0    5G  0 lvm   /home
-    ├─LVMGroup-var      254:4    0    3G  0 lvm   /var
-    ├─LVMGroup-srv      254:5    0    3G  0 lvm   /srv
-    ├─LVMGroup-tmp      254:6    0    3G  0 lvm   /tmp
-    └─LVMGroup-var--log 254:7    0    4G  0 lvm   /var/log
-sr0                      11:0    1 1024M  0 rom
+NAME                  MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+sda                     8:0    0   30G  0 disk
+├─sda1                  8:1    0    1G  0 part  /boot
+└─sda2                  8:2    0   29G  0 part
+  └─luks-xxxx         253:0    0   29G  0 crypt
+    ├─rl-root         253:1    0   10G  0 lvm   /
+    ├─rl-swap         253:2    0  2.3G  0 lvm   [SWAP]
+    ├─rl-home         253:3    0    5G  0 lvm   /home
+    ├─rl-var          253:4    0    3G  0 lvm   /var
+    ├─rl-srv          253:5    0    3G  0 lvm   /srv
+    ├─rl-tmp          253:6    0    3G  0 lvm   /tmp
+    └─rl-var_log      253:7    0    4G  0 lvm   /var/log
+sr0                    11:0    1 1024M  0 rom
 ```
+
+**Note:** Rocky Linux typically uses "rl" as the default volume group name. The encrypted partition shows as "luks-xxxx" where xxxx is a UUID.
 
 ## Partition Size Breakdown
 
 | Partition | Size | Type | Mount Point | Purpose |
 |-----------|------|------|-------------|---------|
-| sda1 | 500 MB | Ext4 | /boot | Boot files, not encrypted |
-| sda5 | ~29.5 GB | Encrypted | N/A | Container for LVM |
-| LV root | 10 GB | Ext4 | / | Root filesystem, system files |
+| sda1 | 1 GB | XFS | /boot | Boot files, not encrypted |
+| sda2 | ~29 GB | Encrypted | N/A | Container for LVM |
+| LV root | 10 GB | XFS | / | Root filesystem, system files |
 | LV swap | 2.3 GB | Swap | N/A | Virtual memory |
-| LV home | 5 GB | Ext4 | /home | User home directories |
-| LV var | 3 GB | Ext4 | /var | Variable data, package caches |
-| LV srv | 3 GB | Ext4 | /srv | Service data (e.g., WordPress) |
-| LV tmp | 3 GB | Ext4 | /tmp | Temporary files |
-| LV var-log | 4 GB | Ext4 | /var/log | System and application logs |
+| LV home | 5 GB | XFS | /home | User home directories |
+| LV var | 3 GB | XFS | /var | Variable data, package caches |
+| LV srv | 3 GB | XFS | /srv | Service data (e.g., WordPress) |
+| LV tmp | 3 GB | XFS | /tmp | Temporary files |
+| LV var_log | 4 GB | XFS | /var/log | System and application logs |
 
 **Total:** ~30.3 GB
 
@@ -146,17 +147,17 @@ sr0                      11:0    1 1024M  0 rom
 ```
 1. BIOS/UEFI
    ↓
-2. GRUB Bootloader (reads from /boot - sda1)
+2. GRUB2 Bootloader (reads from /boot - sda1)
    ↓
 3. Prompt for LUKS encryption password
    ↓
-4. Unlock sda5_crypt
+4. Unlock encrypted partition (luks-xxxx)
    ↓
 5. LVM activates all logical volumes
    ↓
-6. Mount all filesystems
+6. Mount all filesystems (XFS)
    ↓
-7. System boots
+7. System boots with SELinux enabled
 ```
 
 ## Commands to Verify Structure
@@ -188,7 +189,10 @@ lvs
 lsblk -f | grep crypto
 
 # Check LUKS header
-sudo cryptsetup luksDump /dev/sda5
+sudo cryptsetup luksDump /dev/sda2
+
+# Check encryption status
+sudo dmsetup status
 ```
 
 ### Check Disk Usage
@@ -196,8 +200,8 @@ sudo cryptsetup luksDump /dev/sda5
 # Show disk usage for all partitions
 df -h
 
-# Show detailed disk usage
-df -h | grep -E "Filesystem|LVMGroup"
+# Show detailed disk usage (Rocky uses "rl" as VG name)
+df -h | grep -E "Filesystem|rl"
 ```
 
 ## Modifying the Structure (After Installation)
@@ -205,42 +209,41 @@ df -h | grep -E "Filesystem|LVMGroup"
 ### Resize a Logical Volume
 ```bash
 # Extend a logical volume (if space available)
-sudo lvextend -L +2G /dev/LVMGroup/home
-sudo resize2fs /dev/LVMGroup/home
+sudo lvextend -L +2G /dev/rl/home
+sudo xfs_growfs /home  # For XFS (Rocky default)
 
-# Reduce a logical volume (be careful!)
-sudo umount /home
-sudo e2fsck -f /dev/LVMGroup/home
-sudo resize2fs /dev/LVMGroup/home 4G
-sudo lvreduce -L 4G /dev/LVMGroup/home
-sudo mount /home
+# For ext4 (if you used it):
+# sudo resize2fs /dev/rl/home
+
+# Note: XFS cannot be shrunk, only grown!
+# If you need to reduce size, you must backup, recreate, and restore
 ```
 
 ### Create a New Logical Volume
 ```bash
 # If you have free space in the volume group
-sudo lvcreate -L 2G -n new_lv LVMGroup
-sudo mkfs.ext4 /dev/LVMGroup/new_lv
+sudo lvcreate -L 2G -n new_lv rl
+sudo mkfs.xfs /dev/rl/new_lv
 ```
 
 ### Take a Snapshot
 ```bash
 # Create a snapshot of a logical volume
-sudo lvcreate -L 1G -s -n home_snapshot /dev/LVMGroup/home
+sudo lvcreate -L 1G -s -n home_snapshot /dev/rl/home
 
 # Mount the snapshot
 sudo mkdir /mnt/snapshot
-sudo mount /dev/LVMGroup/home_snapshot /mnt/snapshot
+sudo mount /dev/rl/home_snapshot /mnt/snapshot
 ```
 
 ## Partition Structure Alternatives
 
 ### Minimal Setup (Mandatory Requirements Only)
 For the mandatory requirements, you could use a simpler structure:
-- `/boot` - 500 MB
-- `/` (root) - 4 GB
+- `/boot` - 1 GB (XFS)
+- `/` (root) - 4 GB (XFS)
 - `swap` - 1 GB
-- `/home` - Remaining space
+- `/home` - Remaining space (XFS)
 
 **Total:** ~8 GB minimum
 
@@ -257,6 +260,8 @@ This structure is recommended for the bonus part:
 3. **Leave Some Free Space**: Always good to have ~10% free in the volume group
 4. **Swap Size**: Generally 1-2x your RAM (2.3 GB is safe for most cases)
 5. **Log Files Can Grow**: /var/log should have adequate space (4 GB recommended)
+6. **XFS is Default**: Rocky Linux uses XFS by default (can't shrink, only grow)
+7. **Use ext4 if Flexibility Needed**: ext4 allows both growing and shrinking
 
 ## Common Issues
 
@@ -270,18 +275,23 @@ This structure is recommended for the bonus part:
 sudo vgs
 
 # Extend the logical volume
-sudo lvextend -L +1G /dev/LVMGroup/var
-sudo resize2fs /dev/LVMGroup/var
+sudo lvextend -L +1G /dev/rl/var
+sudo xfs_growfs /var  # For XFS
+# Or: sudo resize2fs /dev/rl/var  # For ext4
 ```
 
 ### Issue: Can't Boot (GRUB Error)
 **Solution:** 
-1. Boot from Debian installer
-2. Choose "Rescue mode"
-3. Reinstall GRUB:
+1. Boot from Rocky Linux installer
+2. Choose "Troubleshooting" → "Rescue a Rocky Linux system"
+3. Enter encryption password
+4. Reinstall GRUB2:
    ```bash
-   grub-install /dev/sda
-   update-grub
+   chroot /mnt/sysimage
+   grub2-install /dev/sda
+   grub2-mkconfig -o /boot/grub2/grub.cfg
+   exit
+   reboot
    ```
 
 ---

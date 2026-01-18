@@ -1,413 +1,679 @@
-# Born2BeRoot Quick Reference
+# Born2BeRoot Quick Reference - Rocky Linux
 
-## Quick Command Reference
+Quick command reference for common tasks in the Born2BeRoot project using Rocky Linux.
 
-### User Management
+## System Information
+
 ```bash
-# Create user
-sudo adduser <username>
+# Check Rocky Linux version
+cat /etc/os-release
+cat /etc/redhat-release
+
+# Check architecture
+uname -a
+uname -m
+
+# Check hostname
+hostname
+hostnamectl
+
+# Check if SELinux is enabled
+sestatus
+getenforce
+
+# Check running services
+systemctl list-units --type=service --state=running
+```
+
+## User Management
+
+```bash
+# Create new user
+sudo useradd <username>
+
+# Create user with home directory
+sudo useradd -m <username>
 
 # Delete user
-sudo deluser <username>
-sudo deluser --remove-home <username>  # Also delete home directory
+sudo userdel <username>
 
-# Check user groups
-groups <username>
-id <username>
+# Delete user and home directory
+sudo userdel -r <username>
 
-# Add user to group
-sudo usermod -aG <group> <username>
+# Change user password
+sudo passwd <username>
 
-# Remove user from group
-sudo gpasswd -d <username> <group>
+# Check password aging information
+sudo chage -l <username>
+
+# Set password aging
+sudo chage -M 30 -m 2 -W 7 <username>
+
+# Force password change on next login
+sudo chage -d 0 <username>
 
 # List all users
 cat /etc/passwd | cut -d: -f1
 
+# Check user information
+id <username>
+```
+
+## Group Management
+
+```bash
 # Create group
 sudo groupadd <groupname>
 
 # Delete group
 sudo groupdel <groupname>
 
-# Check group members
+# Add user to group
+sudo usermod -aG <groupname> <username>
+
+# Remove user from group
+sudo gpasswd -d <username> <groupname>
+
+# List all groups
+cat /etc/group
+
+# Check user's groups
+groups <username>
+id <username>
+
+# List users in a group
 getent group <groupname>
 ```
 
-### Password Management
+## Sudo Operations
+
 ```bash
-# Change password
-sudo passwd <username>
-
-# Check password policy
-sudo chage -l <username>
-
-# Set password expiry
-sudo chage -M 30 <username>  # Max days
-sudo chage -m 2 <username>   # Min days
-sudo chage -W 7 <username>   # Warning days
-
-# Force password change on next login
-sudo chage -d 0 <username>
-```
-
-### Sudo Configuration
-```bash
-# Edit sudoers (always use visudo)
+# Edit sudoers file (ALWAYS use visudo)
 sudo visudo
 
-# Check sudo privileges
-sudo -l
+# Check sudo configuration
+sudo cat /etc/sudoers
 
 # View sudo logs
 sudo cat /var/log/sudo/sudo.log
-sudo cat /var/log/sudo/sudo.log | grep COMMAND
+
+# List sudo logs directory
+ls -la /var/log/sudo/
+
+# Test sudo access
+sudo whoami
+
+# Run command as specific user
+sudo -u <username> <command>
+
+# List user's sudo privileges
+sudo -l
 ```
 
-### SSH Management
+## SSH Management
+
 ```bash
 # Check SSH status
-sudo systemctl status ssh
+sudo systemctl status sshd
 
-# Restart SSH
-sudo systemctl restart ssh
+# Start SSH service
+sudo systemctl start sshd
+
+# Stop SSH service
+sudo systemctl stop sshd
+
+# Restart SSH service
+sudo systemctl restart sshd
+
+# Enable SSH at boot
+sudo systemctl enable sshd
 
 # Check SSH configuration
-sudo cat /etc/ssh/sshd_config | grep Port
-sudo cat /etc/ssh/sshd_config | grep PermitRootLogin
+sudo cat /etc/ssh/sshd_config
 
-# Check listening ports
-sudo ss -tunlp | grep ssh
-sudo netstat -tulpn | grep ssh
+# Check SSH port
+sudo ss -tunlp | grep sshd
+sudo netstat -tulpn | grep :4242
 
-# Connect to SSH
+# Connect via SSH
+ssh <username>@localhost -p 4242
+ssh <username>@<ip_address> -p 4242
+
+# Test SSH from host machine
 ssh <username>@localhost -p 4242
 ```
 
-### UFW Firewall
+## Firewalld (Firewall)
+
 ```bash
-# Check status
-sudo ufw status
-sudo ufw status numbered
-sudo ufw status verbose
+# Check firewalld status
+sudo systemctl status firewalld
+sudo firewall-cmd --state
 
-# Enable/Disable
-sudo ufw enable
-sudo ufw disable
+# Start/stop firewalld
+sudo systemctl start firewalld
+sudo systemctl stop firewalld
 
-# Allow port
-sudo ufw allow 4242
-sudo ufw allow 80
+# Enable at boot
+sudo systemctl enable firewalld
 
-# Delete rule
-sudo ufw delete <rule_number>
-sudo ufw delete allow 4242
+# List all rules
+sudo firewall-cmd --list-all
 
-# Default policies
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
+# List allowed ports
+sudo firewall-cmd --list-ports
 
-# Reset firewall
-sudo ufw reset
+# Allow a port
+sudo firewall-cmd --permanent --add-port=4242/tcp
+sudo firewall-cmd --reload
+
+# Remove a port
+sudo firewall-cmd --permanent --remove-port=4242/tcp
+sudo firewall-cmd --reload
+
+# List services
+sudo firewall-cmd --list-services
+
+# Allow a service
+sudo firewall-cmd --permanent --add-service=ssh
+sudo firewall-cmd --reload
+
+# Reload firewall rules
+sudo firewall-cmd --reload
+
+# Check default zone
+sudo firewall-cmd --get-default-zone
+
+# List active zones
+sudo firewall-cmd --get-active-zones
 ```
 
-### System Information
-```bash
-# OS information
-cat /etc/os-release
-uname -a
-uname -r  # Kernel version
+## SELinux Management
 
-# Hostname
+```bash
+# Check SELinux status
+sestatus
+getenforce
+
+# Set SELinux mode (temporary)
+sudo setenforce 0  # Permissive
+sudo setenforce 1  # Enforcing
+
+# Check SELinux mode
+getenforce
+
+# View SELinux config
+cat /etc/selinux/config
+
+# Check SELinux file contexts
+ls -Z /path/to/file
+
+# View SELinux denials
+sudo ausearch -m AVC,USER_AVC -ts recent
+sudo grep "SELinux" /var/log/messages
+```
+
+## Package Management (DNF/YUM)
+
+```bash
+# Update package list
+sudo dnf check-update
+
+# Update all packages
+sudo dnf update -y
+sudo dnf upgrade -y
+
+# Install package
+sudo dnf install <package> -y
+
+# Remove package
+sudo dnf remove <package>
+
+# Search for package
+dnf search <package>
+
+# List installed packages
+dnf list installed
+
+# Get package information
+dnf info <package>
+
+# Clean cache
+sudo dnf clean all
+
+# Check for updates
+dnf check-update
+
+# List available updates
+dnf list updates
+
+# Using YUM (alternative, similar syntax)
+sudo yum update -y
+sudo yum install <package> -y
+```
+
+## Hostname Management
+
+```bash
+# Display hostname
 hostname
 hostnamectl
 
-# Change hostname
-sudo hostnamectl set-hostname <new_hostname>
-# Then edit /etc/hosts
+# Change hostname (temporary)
+sudo hostname <new_hostname>
 
-# Check partitions
+# Change hostname (permanent)
+sudo hostnamectl set-hostname <new_hostname>
+
+# Edit hosts file
+sudo vim /etc/hosts
+# Change: 127.0.0.1 localhost <new_hostname>
+
+# Verify hostname change
+hostname
+hostnamectl
+```
+
+## Partition and LVM
+
+```bash
+# List block devices
 lsblk
+
+# Show disk usage
 df -h
+
+# Show detailed partition info
 sudo fdisk -l
 
-# LVM information
-sudo lvdisplay
-sudo vgdisplay
+# LVM: Physical volumes
 sudo pvdisplay
+sudo pvs
 
-# Check AppArmor
-sudo aa-status
+# LVM: Volume groups
+sudo vgdisplay
+sudo vgs
+
+# LVM: Logical volumes
+sudo lvdisplay
+sudo lvs
+
+# Check encryption
+lsblk -f | grep crypto
+sudo cryptsetup status /dev/mapper/sda5_crypt
+
+# Extend logical volume
+sudo lvextend -L +2G /dev/<vg>/<lv>
+sudo xfs_growfs /mount/point  # For XFS
+sudo resize2fs /dev/<vg>/<lv>  # For ext4
 ```
 
-### Monitoring Script
+## Monitoring and System Info
+
 ```bash
-# Run manually
-sudo /usr/local/bin/monitoring.sh
+# CPU information
+lscpu
+cat /proc/cpuinfo
 
-# Edit cron jobs
-sudo crontab -e
+# Memory information
+free -h
+free -m
+cat /proc/meminfo
 
-# List cron jobs
-sudo crontab -l
+# Disk usage
+df -h
+du -sh /path/to/directory
 
-# Cron service
-sudo systemctl status cron
-sudo systemctl stop cron
-sudo systemctl start cron
-sudo systemctl restart cron
-sudo systemctl enable cron   # Start at boot
-sudo systemctl disable cron  # Don't start at boot
-```
+# Current processes
+ps aux
+top
+htop
 
-### Network Information
-```bash
-# IP address
-hostname -I
-ip addr
-ip a
-
-# MAC address
-ip link
-ip link show
-
-# Active connections
-ss -ta
+# Network connections
 ss -tunlp
 netstat -tulpn
 
-# Check open ports
-sudo ss -tunlp
-sudo netstat -tulpn
+# Check established connections
+ss -ta | grep ESTAB
+
+# System load
+uptime
+w
+
+# Last boot time
+who -b
+
+# Check services
+systemctl list-units --type=service
+
+# View system logs
+sudo journalctl -xe
+sudo journalctl -u <service>
 ```
 
-### Service Management
+## Cron Jobs
+
+```bash
+# Edit root crontab
+sudo crontab -e
+
+# List root crontab
+sudo crontab -l
+
+# Edit user crontab
+crontab -e
+
+# List user crontab
+crontab -l
+
+# Check cron service
+sudo systemctl status crond
+
+# View cron logs
+sudo grep CRON /var/log/cron
+sudo journalctl -u crond
+
+# Cron syntax:
+# */10 * * * * /path/to/script.sh  # Every 10 minutes
+# 0 * * * * /path/to/script.sh     # Every hour
+# 0 0 * * * /path/to/script.sh     # Every day at midnight
+```
+
+## Monitoring Script
+
+```bash
+# Create script
+sudo vim /usr/local/bin/monitoring.sh
+
+# Make executable
+sudo chmod +x /usr/local/bin/monitoring.sh
+
+# Test script
+sudo /usr/local/bin/monitoring.sh
+
+# Add to cron (every 10 minutes)
+sudo crontab -e
+# Add: */10 * * * * /usr/local/bin/monitoring.sh
+
+# Check if running
+ps aux | grep monitoring
+```
+
+## Service Management
+
 ```bash
 # Check service status
 sudo systemctl status <service>
 
-# Start/Stop/Restart service
+# Start service
 sudo systemctl start <service>
+
+# Stop service
 sudo systemctl stop <service>
+
+# Restart service
 sudo systemctl restart <service>
 
-# Enable/Disable service at boot
+# Reload service configuration
+sudo systemctl reload <service>
+
+# Enable service at boot
 sudo systemctl enable <service>
+
+# Disable service at boot
 sudo systemctl disable <service>
 
-# List all services
-systemctl list-units --type=service
-
 # Check if service is enabled
-systemctl is-enabled <service>
+sudo systemctl is-enabled <service>
+
+# List failed services
+sudo systemctl --failed
+
+# View service logs
+sudo journalctl -u <service>
+sudo journalctl -u <service> -f  # Follow logs
 ```
 
-## Defense Questions & Answers
+## Network
 
-### What is a Virtual Machine?
-A virtual machine (VM) is a software-based emulation of a physical computer that runs an operating system and applications as if it were a separate physical machine. It allows multiple OS environments to run simultaneously on a single physical machine.
-
-### Why Choose Debian?
-- Stable and reliable
-- Large community support
-- Extensive documentation
-- Beginner-friendly
-- APT package manager is straightforward
-- Good for learning Linux fundamentals
-
-### Debian vs Rocky Linux
-| Debian | Rocky Linux |
-|--------|-------------|
-| Community-driven | Enterprise-focused (RHEL clone) |
-| APT package manager | DNF/YUM package manager |
-| .deb packages | .rpm packages |
-| Larger software repository | Smaller but stable repository |
-| Release when ready | Fixed release schedule |
-
-### What is LVM?
-Logical Volume Manager (LVM) is a device mapper framework that provides logical volume management for the Linux kernel. Benefits:
-- Dynamic resizing of partitions
-- Snapshots for backups
-- Better disk space management
-- Ability to combine multiple disks
-
-### What is AppArmor?
-AppArmor (Application Armor) is a Linux kernel security module that allows the system administrator to restrict programs' capabilities with per-program profiles. It uses path-based access control.
-
-### AppArmor vs SELinux
-| AppArmor | SELinux |
-|----------|---------|
-| Path-based access control | Label-based access control |
-| Easier to configure | More complex configuration |
-| Default in Debian/Ubuntu | Default in RHEL/CentOS |
-| Less granular | More granular control |
-| Uses file paths | Uses security contexts |
-
-### What is UFW?
-Uncomplicated Firewall (UFW) is a user-friendly frontend for managing iptables firewall rules. It's designed to make firewall configuration easier.
-
-### UFW vs firewalld
-| UFW | firewalld |
-|-----|-----------|
-| Simpler interface | More features |
-| Debian/Ubuntu default | RHEL/CentOS default |
-| Single zone concept | Multiple zones |
-| Static rules | Dynamic rules |
-
-### What is SSH?
-Secure Shell (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. Used for:
-- Remote command execution
-- Secure file transfer (SCP, SFTP)
-- Port forwarding/tunneling
-
-### What is Sudo?
-Sudo (superuser do) allows authorized users to run commands with root privileges without logging in as root. Benefits:
-- Better security (no need to share root password)
-- Audit trail (logs who did what)
-- Granular control (specific commands per user)
-- Temporary elevation of privileges
-
-### What is Cron?
-Cron is a time-based job scheduler in Unix-like systems. It allows users to schedule commands or scripts to run automatically at specified times/dates/intervals.
-
-### Password Policy Explanation
-- **minlen=10**: Minimum 10 characters
-- **ucredit=-1**: At least 1 uppercase letter
-- **dcredit=-1**: At least 1 digit
-- **maxrepeat=3**: Max 3 consecutive identical characters
-- **reject_username**: Password can't contain username
-- **difok=7**: At least 7 different characters from old password
-- **PASS_MAX_DAYS 30**: Password expires in 30 days
-- **PASS_MIN_DAYS 2**: Can't change password before 2 days
-- **PASS_WARN_AGE 7**: Warning 7 days before expiry
-
-## Common Defense Tasks
-
-### Create a New User
 ```bash
-sudo adduser evaluator
-sudo usermod -aG user42 evaluator
-groups evaluator
+# Show IP addresses
+ip a
+ip addr show
+hostname -I
+
+# Show MAC addresses
+ip link show
+
+# Show routing table
+ip route
+route -n
+
+# Test connectivity
+ping -c 4 8.8.8.8
+ping -c 4 google.com
+
+# DNS lookup
+nslookup google.com
+dig google.com
+
+# Check open ports
+sudo ss -tunlp
+sudo netstat -tulpn
+
+# Check listening ports
+sudo ss -tlnp
 ```
 
-### Change Hostname
+## Logs
+
 ```bash
-sudo hostnamectl set-hostname new_hostname
-sudo vim /etc/hosts  # Change old hostname to new
-sudo reboot
+# System logs (Rocky Linux uses journalctl)
+sudo journalctl -xe
+sudo journalctl -f  # Follow logs
+sudo journalctl -u <service>
+sudo journalctl --since "1 hour ago"
+sudo journalctl --since "2023-01-01"
+sudo journalctl -p err  # Only errors
+
+# Traditional log files
+sudo cat /var/log/messages      # System messages
+sudo cat /var/log/secure        # Security/auth logs
+sudo cat /var/log/cron          # Cron logs
+sudo tail -f /var/log/messages  # Follow system logs
+
+# Sudo logs
+sudo cat /var/log/sudo/sudo.log
+sudo cat /var/log/secure | grep sudo
+
+# Clear journal logs (keep last 7 days)
+sudo journalctl --vacuum-time=7d
 ```
 
-### Add/Remove Firewall Rule
+## Password Policy Verification
+
 ```bash
-sudo ufw allow 8080
-sudo ufw status numbered
-sudo ufw delete <number>
+# Check PAM password quality settings
+sudo cat /etc/security/pwquality.conf
+
+# Check login definitions
+sudo cat /etc/login.defs | grep PASS_
+
+# Check user password aging
+sudo chage -l <username>
+
+# Check all users password aging
+for user in $(cat /etc/passwd | cut -d: -f1); do
+    echo "User: $user"
+    sudo chage -l $user
+    echo "---"
+done
 ```
 
-### Show Partition Structure
+## Bonus: WordPress/Apache
+
 ```bash
-lsblk
+# Apache (httpd) service
+sudo systemctl status httpd
+sudo systemctl start httpd
+sudo systemctl restart httpd
+
+# Check Apache configuration
+sudo httpd -t
+sudo apachectl configtest
+
+# Apache configuration files
+sudo vim /etc/httpd/conf/httpd.conf
+sudo vim /etc/httpd/conf.d/
+
+# MariaDB/MySQL service
+sudo systemctl status mariadb
+sudo systemctl start mariadb
+
+# Access MariaDB
+sudo mysql -u root -p
+sudo mysql
+
+# Check MariaDB databases
+sudo mysql -e "SHOW DATABASES;"
+
+# Check PHP version
+php -v
+
+# PHP configuration
+sudo vim /etc/php.ini
 ```
-
-### Explain Monitoring Script
-Go through each section:
-1. System architecture (uname -a)
-2. Physical/Virtual CPUs (from /proc/cpuinfo)
-3. RAM usage (free command)
-4. Disk usage (df command)
-5. CPU load (vmstat)
-6. Last boot time (who -b)
-7. LVM status (lsblk)
-8. TCP connections (ss command)
-9. Logged in users (users)
-10. Network info (hostname, ip)
-11. Sudo commands (journalctl)
-
-### Modify Cron Schedule
-```bash
-sudo crontab -e
-
-# Every 10 minutes
-*/10 * * * * /usr/local/bin/monitoring.sh
-
-# Every 5 minutes
-*/5 * * * * /usr/local/bin/monitoring.sh
-
-# Every minute
-* * * * * /usr/local/bin/monitoring.sh
-```
-
-### Stop Cron Without Uninstalling
-```bash
-sudo systemctl stop cron
-# Or
-sudo systemctl disable cron
-```
-
-## File Locations
-
-- **Sudo config**: `/etc/sudoers`
-- **Sudo logs**: `/var/log/sudo/`
-- **SSH config**: `/etc/ssh/sshd_config`
-- **Password policy**: `/etc/pam.d/common-password`
-- **Password aging**: `/etc/login.defs`
-- **Monitoring script**: `/usr/local/bin/monitoring.sh`
-- **Cron jobs**: `sudo crontab -l`
-- **User list**: `/etc/passwd`
-- **Group list**: `/etc/group`
-- **AppArmor profiles**: `/etc/apparmor.d/`
-
-## Important Notes
-
-1. **Always use visudo** to edit sudoers file - it checks for syntax errors
-2. **Restart services** after config changes (SSH, UFW, etc.)
-3. **Test changes** before evaluation (create test user, try SSH, etc.)
-4. **Know your hostname** format (should be login42)
-5. **Understand every line** of your monitoring script
-6. **Can explain** why you chose each partition size
-7. **Password must follow policy** when creating new users
-8. **Root cannot SSH** into the system (PermitRootLogin no)
-9. **Only port 4242** should be open (UFW)
-10. **Script runs every 10 minutes** via cron
 
 ## Troubleshooting
 
-### Can't login after reboot
-- Check if you're entering encryption password correctly
-- Verify user password is correct
+```bash
+# Check system status
+systemctl status
 
-### SSH connection refused
-- Check if SSH service is running: `sudo systemctl status ssh`
-- Verify port 4242 is open: `sudo ufw status`
-- Check VirtualBox port forwarding settings
+# Check failed services
+sudo systemctl --failed
 
-### Sudo not working
-- Check if user is in sudo group: `groups username`
-- Verify sudoers file syntax: `sudo visudo -c`
+# Check system logs
+sudo journalctl -xe
+sudo journalctl -p err
 
-### Monitoring script not broadcasting
-- Check if script is executable: `ls -l /usr/local/bin/monitoring.sh`
-- Verify cron service is running: `sudo systemctl status cron`
-- Check cron syntax: `sudo crontab -l`
+# Check disk space
+df -h
+sudo du -sh /* | sort -h
 
-### Can't change password (doesn't meet policy)
-- Ensure password has: 10+ chars, 1 uppercase, 1 digit
-- Check it doesn't contain username
-- Verify it's different enough from old password
+# Check memory usage
+free -h
+top
 
-## Quick Test Checklist
+# Check processes
+ps aux
+top
+htop
 
-Before evaluation:
-- [ ] Hostname is correct format (login42)
-- [ ] UFW is active with only port 4242
-- [ ] SSH works on port 4242
-- [ ] User is in sudo and user42 groups
-- [ ] Password policy is active
-- [ ] Sudo logs are working
-- [ ] Monitoring script runs and displays correctly
-- [ ] Can create/delete users
-- [ ] Can modify hostname
-- [ ] Understand partition structure
-- [ ] All services are running correctly
+# Kill a process
+sudo kill <PID>
+sudo killall <process_name>
 
-Good luck with your defense! 🚀
+# Check network issues
+ip a
+ip route
+ping 8.8.8.8
+
+# Test port connectivity
+telnet <ip> <port>
+nc -zv <ip> <port>
+
+# Reboot system
+sudo reboot
+
+# Shutdown system
+sudo shutdown -h now
+sudo poweroff
+```
+
+## Useful Keyboard Shortcuts in Terminal
+
+- `Ctrl + C` - Stop current command
+- `Ctrl + Z` - Suspend current command
+- `Ctrl + D` - Logout/exit
+- `Ctrl + L` - Clear screen
+- `Ctrl + A` - Go to start of line
+- `Ctrl + E` - Go to end of line
+- `Ctrl + U` - Delete from cursor to start
+- `Ctrl + K` - Delete from cursor to end
+- `Ctrl + R` - Search command history
+- `Tab` - Autocomplete
+- `!!` - Repeat last command
+- `sudo !!` - Repeat last command with sudo
+
+## Common File Paths
+
+```bash
+# Configuration files
+/etc/ssh/sshd_config              # SSH configuration
+/etc/sudoers                      # Sudo configuration
+/etc/security/pwquality.conf      # Password quality config
+/etc/login.defs                   # Login defaults
+/etc/pam.d/                       # PAM configuration
+/etc/selinux/config               # SELinux config
+/etc/hosts                        # Hostname mappings
+/etc/hostname                     # System hostname
+/etc/redhat-release               # Rocky version
+/etc/httpd/conf/httpd.conf        # Apache config
+
+# Log files
+/var/log/messages                 # System messages
+/var/log/secure                   # Auth logs
+/var/log/cron                     # Cron logs
+/var/log/sudo/sudo.log            # Sudo logs
+/var/log/firewalld                # Firewall logs
+/var/log/httpd/                   # Apache logs
+
+# User data
+/home/<username>/                 # User home directory
+/root/                            # Root home directory
+/etc/passwd                       # User accounts
+/etc/group                        # Groups
+/etc/shadow                       # Password hashes (need root)
+```
+
+---
+
+## Defense Questions - Quick Answers
+
+**Q: What is Rocky Linux?**
+A: Enterprise Linux distribution, CentOS replacement, 100% compatible with RHEL.
+
+**Q: Difference between Rocky and Debian?**
+A: Rocky uses DNF/YUM, RPM packages, SELinux, firewalld; Debian uses APT, DEB packages, AppArmor, UFW.
+
+**Q: What is SELinux?**
+A: Security-Enhanced Linux - mandatory access control security system.
+
+**Q: Difference between AppArmor and SELinux?**
+A: Both are MAC systems; SELinux (Red Hat) is more complex/powerful, uses contexts; AppArmor (Debian) is simpler, uses file paths.
+
+**Q: What is firewalld?**
+A: Dynamic firewall manager, default on RHEL/Rocky, uses zones and services.
+
+**Q: Difference between UFW and firewalld?**
+A: UFW (Debian) is simpler, frontend for iptables; firewalld (Rocky) is more advanced with zones and dynamic rules.
+
+**Q: What is DNF?**
+A: Dandified YUM - next-generation package manager for RPM-based distributions, replaces YUM.
+
+**Q: What is LVM?**
+A: Logical Volume Manager - flexible disk management, allows resizing, snapshots, multiple disks as one.
+
+**Q: What is sudo?**
+A: "Superuser do" - allows users to run commands with root privileges securely.
+
+**Q: What is SSH?**
+A: Secure Shell - encrypted network protocol for secure remote login and command execution.
+
+**Q: Why port 4242?**
+A: Custom port for added security (security through obscurity), avoids default port 22 scanning.
+
+---
+
+**Good luck with your evaluation! 🚀**
