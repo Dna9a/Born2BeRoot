@@ -28,23 +28,25 @@
 ## Partition Configuration
 - [ ] Click "Installation Destination"
 - [ ] Select disk, choose "Custom" storage configuration
-- [ ] Click "Done" to enter partitioning tool
-- [ ] Create /boot partition (1 GB, Standard Partition, XFS)
-- [ ] Create encrypted partition (remaining space)
-  - [ ] Click "+" to add mount point "/"
-  - [ ] Check "Encrypt my data"
-  - [ ] Set encryption passphrase (remember this!)
-- [ ] Configure LVM
-  - [ ] Create volume group: (auto-created or name it)
-  - [ ] Create logical volumes:
-    - [ ] root (/): 10 GB (XFS)
-    - [ ] swap: 2.3 GB (swap)
-    - [ ] home (/home): 5 GB (XFS)
-    - [ ] var (/var): 3 GB (XFS)
-    - [ ] srv (/srv): 3 GB (XFS)
-    - [ ] tmp (/tmp): 3 GB (XFS)
-    - [ ] var-log (/var/log): 4 GB (XFS or remaining)
-- [ ] Click "Done" and "Accept Changes"
+- [ ] Click "Done" to enter manual partitioning
+- [ ] Select "LVM" from partitioning scheme dropdown
+- [ ] Check "Encrypt my data" checkbox
+- [ ] Set encryption passphrase (remember this - you'll need it at every boot!)
+- [ ] Create /boot partition first:
+  - [ ] Click "+", mount point: /boot, capacity: 1 GB
+  - [ ] Device Type: Standard Partition, File System: xfs
+  - [ ] Do NOT encrypt /boot
+- [ ] Create remaining partitions (all will be in encrypted LVM automatically):
+  - [ ] root (/): 10 GB, LVM, xfs
+  - [ ] swap: 2.3 GB, LVM, swap
+  - [ ] home (/home): 5 GB, LVM, xfs
+  - [ ] var (/var): 3 GB, LVM, xfs
+  - [ ] srv (/srv): 3 GB, LVM, xfs
+  - [ ] tmp (/tmp): 3 GB, LVM, xfs
+  - [ ] var-log (/var/log): 4 GB or remaining space, LVM, xfs
+- [ ] Review all partitions on the left side
+- [ ] Click "Done", review "Summary of Changes"
+- [ ] Click "Accept Changes"
 
 ## Complete Installation
 - [ ] Software Selection

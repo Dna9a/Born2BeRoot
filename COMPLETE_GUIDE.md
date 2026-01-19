@@ -123,98 +123,98 @@ This is one of the most critical parts of the project. You need to create an enc
 
 ### Step 2: Manual Partitioning Screen
 1. You'll see the manual partitioning interface
-2. Select **"Standard Partition"** from the dropdown (change to LVM later)
-3. Click the **"+"** button to create partitions
+2. From the dropdown at the bottom, select **"LVM"** as the partitioning scheme
+3. Check the **"Encrypt my data"** checkbox
+4. Enter and confirm your encryption passphrase (you'll need this at every boot!)
+5. Now you'll create individual mount points
 
 ### Step 3: Create Boot Partition
 1. Click **"+"** to add a new mount point
 2. **Mount Point:** /boot
-3. **Desired Capacity:** 500 MB (or 1 GB for safety)
+3. **Desired Capacity:** 1 GB (1024 MB)
 4. Click **"Add mount point"**
-5. **Device Type:** Standard Partition
-6. **File System:** ext4
-7. Do NOT encrypt /boot
+5. On the left side, select the /boot partition you just created
+6. On the right side, ensure:
+   - **Device Type:** Standard Partition
+   - **File System:** xfs
+   - **Encrypt:** Should be unchecked (bootloader needs to read this)
 
-### Step 4: Create Encrypted LVM
+### Step 4: Create Root Partition
 1. Click **"+"** to add a new mount point
-2. **Mount Point:** / (root)
-3. **Desired Capacity:** (leave blank for automatic - we'll configure inside LVM)
+2. **Mount Point:** /
+3. **Desired Capacity:** 10 GB (10240 MB)
 4. Click **"Add mount point"**
-5. **Device Type:** Change to **"LVM"**
-6. **Volume Group:** Click "Modify" to configure
-7. **Name:** LVMGroup (or your login + "42" like `yoabied42`)
-8. **Encrypt:** CHECK the "Encrypt" checkbox
-9. **Encryption passphrase:** Enter a strong passphrase (you'll need this at boot)
-10. Confirm passphrase
-11. Click **"Save"**
+5. The system will automatically place this in an encrypted LVM
+6. Verify:
+   - **Device Type:** LVM
+   - **Volume Group:** rl (Rocky Linux default) or your custom name
+   - **File System:** xfs
 
-### Step 5: Create Logical Volumes
-Now create logical volumes for each partition. Click **"+"** for each:
+### Step 5: Create Swap Partition
+1. Click **"+"**
+2. **Mount Point:** swap
+3. **Desired Capacity:** 2.3 GB (2355 MB)
+4. Click **"Add mount point"**
+5. Verify:
+   - **Device Type:** LVM
+   - **File System:** swap
 
-**Mandatory Partitions:**
+### Step 6: Create Home Partition
+1. Click **"+"**
+2. **Mount Point:** /home
+3. **Desired Capacity:** 5 GB (5120 MB)
+4. Click **"Add mount point"**
+5. Verify: Device Type is LVM, File System is xfs
 
-1. **root** - /
-   - Mount Point: /
-   - Desired Capacity: 10 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
+### Step 7: Create Var Partition
+1. Click **"+"**
+2. **Mount Point:** /var
+3. **Desired Capacity:** 3 GB (3072 MB)
+4. Click **"Add mount point"**
+5. Verify: Device Type is LVM, File System is xfs
 
-2. **swap**
-   - Mount Point: swap
-   - Desired Capacity: 2.3 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: swap
+### Step 8: Create Srv Partition
+1. Click **"+"**
+2. **Mount Point:** /srv
+3. **Desired Capacity:** 3 GB (3072 MB)
+4. Click **"Add mount point"**
+5. Verify: Device Type is LVM, File System is xfs
 
-3. **home** - /home
-   - Mount Point: /home
-   - Desired Capacity: 5 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
+### Step 9: Create Tmp Partition
+1. Click **"+"**
+2. **Mount Point:** /tmp
+3. **Desired Capacity:** 3 GB (3072 MB)
+4. Click **"Add mount point"**
+5. Verify: Device Type is LVM, File System is xfs
 
-4. **var** - /var
-   - Mount Point: /var
-   - Desired Capacity: 3 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
+### Step 10: Create Var-Log Partition
+1. Click **"+"**
+2. **Mount Point:** /var/log
+3. **Desired Capacity:** 4 GB (4096 MB) or leave blank for remaining space
+4. Click **"Add mount point"**
+5. Verify: Device Type is LVM, File System is xfs
 
-5. **srv** - /srv
-   - Mount Point: /srv
-   - Desired Capacity: 3 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
-
-6. **tmp** - /tmp
-   - Mount Point: /tmp
-   - Desired Capacity: 3 GB
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
-
-7. **var-log** - /var/log
-   - Mount Point: /var/log
-   - Desired Capacity: 4 GB (or remaining space)
-   - Device Type: LVM
-   - Volume Group: LVMGroup
-   - File System: ext4
-
-### Step 6: Finalize Partitioning
-1. Review all partitions
+### Step 11: Review and Finalize Partitioning
+1. Review all partitions on the left side:
+   - /boot (1 GB, Standard Partition, unencrypted)
+   - / (10 GB, LVM, encrypted)
+   - swap (2.3 GB, LVM, encrypted)
+   - /home (5 GB, LVM, encrypted)
+   - /var (3 GB, LVM, encrypted)
+   - /srv (3 GB, LVM, encrypted)
+   - /tmp (3 GB, LVM, encrypted)
+   - /var/log (4 GB, LVM, encrypted)
 2. Click **"Done"**
-3. Review the "Summary of Changes"
-4. Click **"Accept Changes"**
+3. Review the "Summary of Changes" dialog carefully
+4. Click **"Accept Changes"** to apply the partitioning
 
-### Step 7: Software Selection
+### Step 12: Software Selection
 1. Click **"Software Selection"**
 2. **Base Environment:** Select **"Minimal Install"**
 3. Do NOT select any add-ons (no GUI)
 4. Click **"Done"**
 
-### Step 8: Begin Installation
+### Step 13: Begin Installation
 1. Click **"Begin Installation"**
 2. Wait for installation to complete (10-20 minutes)
 3. Once complete, click **"Reboot System"**

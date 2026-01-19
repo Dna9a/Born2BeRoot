@@ -67,13 +67,21 @@ This guide covers common issues you might encounter during the Born2BeRoot proje
 - Consider using a password manager during installation
 
 ### Issue: Can't create encrypted partition
-**Symptoms:** Option for encryption is grayed out or not working
+**Symptoms:** Option for encryption is grayed out or not working, or confused about the partitioning workflow
 
 **Solutions:**
 1. In Installation Destination, choose "Custom" storage configuration
-2. When adding mount points, check the "Encrypt my data" checkbox
-3. Rocky installer will prompt for encryption passphrase
-4. Ensure you're creating LVM volumes, not standard partitions (except /boot)
+2. In the manual partitioning screen:
+   - Change the dropdown at the bottom from "Standard Partition" to "LVM"
+   - Check the "Encrypt my data" checkbox - this will prompt for a passphrase
+3. Create /boot FIRST as a Standard Partition (1 GB, xfs, unencrypted)
+4. Then create all other mount points (/, swap, /home, etc.) - these will automatically be placed in the encrypted LVM
+5. Do NOT try to create the encrypted container first and then add partitions inside it
+6. Rocky's installer handles the encryption when you check the box - you just add mount points
+
+**Common Mistake:**
+- Creating "/" first with encryption, then trying to create it again with other partitions
+- The correct flow: Enable encryption → Create /boot (standard) → Create all other mount points (they auto-go into encrypted LVM)
 
 ### Issue: LVM partitions not showing up
 **Symptoms:** After creating LVM, partitions aren't visible
