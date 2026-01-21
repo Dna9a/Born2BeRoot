@@ -18,11 +18,11 @@ Virtualization is a technology used to create virtual representations of `server
 
 ## Hypervisor
 
-A
+
 <!-- Instructions -->
 # Instructions
 ## my approache 
-language --> time --> root --> user --> patitiionnning using fdisk--> luks encription
+language --> time --> root --> user --> patitiionnning using fdisk--> luks encription --> LVM
 <!-- here is a picture -->
 ![iuhm](https://media.licdn.com/dms/image/v2/D5622AQG9dFW02IU-9A/feedshare-shrink_800/B56ZbYPI9nGoAo-/0/1747384573418?e=2147483647&v=beta&t=m3boBsHH2ilW3Tp01yPlAEz0wWAruQxbOWOQ-2MtaVo)
 <!-- Resources -->
@@ -31,7 +31,7 @@ language --> time --> root --> user --> patitiionnning using fdisk--> luks encri
 - **[Amazon + A_pdf_Ofpp - Virtualization](https://aws.amazon.com/what-is/virtualization/)**
 - **[Wikipedia - luks ](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup)**
 - **[RedHat - luks](https://access.redhat.com/solutions/100463)**
-- **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)**
+- **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)** 
 - **[RedHat - fdisk](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/storage_administration_guide/s2-disk-storage-parted-resize-part)**
 - **[ - ]()**
 - **[ - ]()**
