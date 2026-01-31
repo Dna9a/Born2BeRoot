@@ -132,10 +132,18 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 *   **Lighttpd & WordPress:** Hosted to serve a specific Unity-based video game project.
 
 
----
-
 ## 3. Technology Comparisons
 
+### VirtualBox vs. UTM
+
+![tm](https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/02/img_9627.png)
+|   |VirtualBox | UTM (QEMU backend) |
+| :--- | :--- |:--- |
+| **Architecture** | Primarily x86 virtualization. | Supports emulation of different architectures (ARM, x86, PPC). |
+| **Performance** | Excellent for x86-on-x86 virtualization. | Native speed on Apple Silicon (M-series) via Hypervisor.framework. |
+| **OS Support** | Cross-platform (Windows, Linux, macOS). | Exclusive to macOS/iOS. |
+
+------------------------------------------------------------------
 ### AppArmor vs. SELinux
 
 ![VS](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*qycA2LkdLNir9BT9.jpg)
@@ -158,16 +166,22 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 | **Usage** | Designed for simplicity (e.g., `ufw allow 4242`). | Uses XML configuration and DBus. Complex zone management. |
 | **Target** | Single-host servers and beginners (Debian standard). | Complex network environments (RHEL standard). |
 
-### VirtualBox vs. UTM
+### Firewalld Configuration
+Rocky Linux uses `firewalld` by default.
 
-![tm](https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/02/img_9627.png)
-|   |VirtualBox | UTM (QEMU backend) |
-| :--- | :--- |:--- |
-| **Architecture** | Primarily x86 virtualization. | Supports emulation of different architectures (ARM, x86, PPC). |
-| **Performance** | Excellent for x86-on-x86 virtualization. | Native speed on Apple Silicon (M-series) via Hypervisor.framework. |
-| **OS Support** | Cross-platform (Windows, Linux, macOS). | Exclusive to macOS/iOS. |
-
-------------------------------------------------------------------
+1.  **Check Status:**
+    ```bash
+    systemctl status firewalld
+    ```
+2.  **Add Port 4242 (SSH):**
+    ```bash
+    firewall-cmd --permanent --add-port=4242/tcp
+    firewall-cmd --reload
+    ```
+3.  **List Open Ports:**
+    ```bash
+    firewall-cmd --list-ports
+    ```
 
 # disk partitionning 
 
@@ -187,8 +201,9 @@ fdisk is a widely used, text-based utility for managing disk partitions on Linux
 Greater compatibility: `parted` works with a wider variety of partition tables, making it more versatile for managing modern hard drives.
 Advanced features: `parted` offers more advanced functionality, such as resizing partitions without data loss.
 
-
 ## Text Mode (CLI)
+
+![uhm](https://linuxconfig.org/images/redhat_7_text_installation.png)
 **Text Mode**, often referred to as the Command Line Interface (CLI) or "Headless" mode, is a method of interacting with the computer using only text commands, without a Graphical User Interface (GUI) like GNOME or KDE.
 
 **How it works:**
@@ -219,21 +234,4 @@ To fulfill the project requirements of managing groups, here are the commands us
     
     # Add the user
     usermod -aG user42 <username>
-    ```
-
-### Firewalld Configuration
-Rocky Linux uses `firewalld` by default.
-
-1.  **Check Status:**
-    ```bash
-    systemctl status firewalld
-    ```
-2.  **Add Port 4242 (SSH):**
-    ```bash
-    firewall-cmd --permanent --add-port=4242/tcp
-    firewall-cmd --reload
-    ```
-3.  **List Open Ports:**
-    ```bash
-    firewall-cmd --list-ports
     ```
