@@ -1,5 +1,4 @@
 ## *This project has been created as part of the 42 curriculum by yoabied.* 
-
 <!-- 9sem -->
 <div style="display: flex; justify-content: space-between; align-items: center;">
   <span style="font-size: 45px;">📄</span>
@@ -236,3 +235,4 @@ To fulfill the project requirements of managing groups, here are the commands us
     # Add the user
     usermod -aG user42 <username>
     ```
+😔🐪 i'll be loading more on my git only need to not forget
