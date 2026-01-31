@@ -18,13 +18,13 @@ Virtualization is a technology used to create virtual representations of `server
 
 ## Hypervisor
 It is `software` that sits in between the hardware and the VMs for the sake of managing resources for VMs. **The hypervisor** is divided into two types:
-
+![iuhm](https://www.dnsstuff.com/wp-content/uploads/2019/10/what-is-hypervisor.jpg)
 ### Type 1
 This type is a **native** solution that sits directly on top of the hardware. It is capable of acting as the operating system for the physical server, such as:
-
+![iuhm](https://www.ubackup.com/screenshot/en/acb/virtual-machine/type-1-hypervisor-vs-type-2/type-1-hypervisor-examples.png)
 ### Type 2
 It is software that sits on top of your main OS, such as:
-
+![iuhm](https://www.ubackup.com/screenshot/en/acb/virtual-machine/type-1-hypervisor-vs-type-2/type-2-hypervisor-examples.png)
 
 <!-- Instructions -->
 # Instructions
@@ -37,7 +37,7 @@ A followed a manual configuration approach using Anaconda in `text/shell` **mode
 ### 2. Storage Configuration (Anaconda Shell)
 We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUKS encryption, and LVM.
 
-`Get yourr self your OS iso` --> `` --> `` 
+`Get yourr self your OS iso` --> `Your supp to know why u chossed this last one` --> `create a machine on virtual box` 
 
 `Language` --> `Timezone` --> `Root & User Creds` 
        |
@@ -58,7 +58,7 @@ We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUK
 - **[RedHat - luks](https://access.redhat.com/solutions/100463)**
 - **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)** 
 - **[RedHat - fdisk](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/storage_administration_guide/s2-disk-storage-parted-resize-part)**
-- **[ - ]()**
+- **[AOMEI - Hypervisor](https://www.ubackup.com/enterprise-backup/type-1-hypervisor-vs-type-2.html)**
 - **[ - ]()**
 - **[ - ]()**
 - **[ - ]()**
