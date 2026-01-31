@@ -67,9 +67,10 @@ We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUK
 - **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)** 
 - **[RedHat - fdisk](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/storage_administration_guide/s2-disk-storage-parted-resize-part)**
 - **[AOMEI - Hypervisor](https://www.ubackup.com/enterprise-backup/type-1-hypervisor-vs-type-2.html)**
+- **[Rocky - Inst.text](https://forums.rockylinux.org/t/inst-text-not-working/4414)**
 - **[Rocky - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
-- **[ - ]()**
-- **[ - ]()**
+- **[RedHat - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
+- **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)**
 
 
 #  A Project description 
