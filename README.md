@@ -67,7 +67,7 @@ We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUK
 - **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)** 
 - **[RedHat - fdisk](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/storage_administration_guide/s2-disk-storage-parted-resize-part)**
 - **[AOMEI - Hypervisor](https://www.ubackup.com/enterprise-backup/type-1-hypervisor-vs-type-2.html)**
-- **[ - ]()**
+- **[Rocky - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
 - **[ - ]()**
 - **[ - ]()**
 
@@ -121,14 +121,16 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 *   **Primary User:** Added to the `sudo` and `user42` groups for elevated privileges.
  
 ### Services Installed
-To maintain a minimal and secure footprint, only essential services were installed:
+
+![uhm](https://h4ckseed.wordpress.com/wp-content/uploads/2023/09/sin-titulo.png)
+
+## To maintain a minimal and secure footprint, only essential services were installed:
 *   **SSH (OpenSSH Server):** For remote access on port 4242.
 *   **Firewalld:** For managing network traffic and ports.
 *   **Cron:** For scheduling system maintenance tasks.
 *   **Git:** Installed to fetch and deploy project repositories.
-*   **Web Server & WordPress:** Hosted to serve a specific Unity-based video game project.
+*   **Lighttpd & WordPress:** Hosted to serve a specific Unity-based video game project.
 
-![uhm](https://h4ckseed.wordpress.com/wp-content/uploads/2023/09/sin-titulo.png)
 
 ---
 
@@ -148,7 +150,7 @@ To maintain a minimal and secure footprint, only essential services were install
 
 ### UFW vs. Firewalld
 
-![UFW](https://dev.to/cheulong/ufwuncomplicated-firewall-5a43)
+![UFW](https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnyitqzs7c4h2a0d055ar.png)
 
 | |UFW (Uncomplicated Firewall) | Firewalld |
 | :--- |:--- | :--- |
@@ -165,10 +167,6 @@ To maintain a minimal and secure footprint, only essential services were install
 | **OS Support** | Cross-platform (Windows, Linux, macOS). | Exclusive to macOS/iOS. |
 
 ---
-
-# - Text mode and how it works 
-explain the text modde please and how it actualy works 
-
 
 # disk partitionning 
 
