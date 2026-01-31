@@ -159,6 +159,7 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 | **Target** | Single-host servers and beginners (Debian standard). | Complex network environments (RHEL standard). |
 
 ### VirtualBox vs. UTM
+
 ![tm](https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/02/img_9627.png)
 |   |VirtualBox | UTM (QEMU backend) |
 | :--- | :--- |:--- |
@@ -166,7 +167,7 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 | **Performance** | Excellent for x86-on-x86 virtualization. | Native speed on Apple Silicon (M-series) via Hypervisor.framework. |
 | **OS Support** | Cross-platform (Windows, Linux, macOS). | Exclusive to macOS/iOS. |
 
----
+------------------------------------------------------------------
 
 # disk partitionning 
 
@@ -186,3 +187,53 @@ fdisk is a widely used, text-based utility for managing disk partitions on Linux
 Greater compatibility: `parted` works with a wider variety of partition tables, making it more versatile for managing modern hard drives.
 Advanced features: `parted` offers more advanced functionality, such as resizing partitions without data loss.
 
+
+## Text Mode (CLI)
+**Text Mode**, often referred to as the Command Line Interface (CLI) or "Headless" mode, is a method of interacting with the computer using only text commands, without a Graphical User Interface (GUI) like GNOME or KDE.
+
+**How it works:**
+Instead of clicking icons, the user types commands into a shell (like Bash). The system processes these text inputs and returns text outputs.
+*   **Performance:** It consumes significantly fewer resources (RAM/CPU) because the system doesn't need to render heavy graphics.
+*   **Stability:** Fewer moving parts (graphical drivers, window managers) means fewer things can crash.
+*   **Server Standard:** Almost all professional servers run in text mode to maximize performance for the actual services.
+
+# ⚙️ Configuration Cheatsheet
+
+### User & Group Management (Rocky Linux)
+To fulfill the project requirements of managing groups, here are the commands used:
+
+1.  **Check existing groups for a user:**
+    ```bash
+    groups <username>
+    ```
+
+2.  **Add a user to the `wheel` group (Admin/Sudo rights on Rocky):**
+    ```bash
+    usermod -aG wheel <username>
+    ```
+
+3.  **Add a user to the `user42` group (Project requirement):**
+    ```bash
+    # First, create the group if it doesn't exist
+    groupadd user42
+    
+    # Add the user
+    usermod -aG user42 <username>
+    ```
+
+### Firewalld Configuration
+Rocky Linux uses `firewalld` by default.
+
+1.  **Check Status:**
+    ```bash
+    systemctl status firewalld
+    ```
+2.  **Add Port 4242 (SSH):**
+    ```bash
+    firewall-cmd --permanent --add-port=4242/tcp
+    firewall-cmd --reload
+    ```
+3.  **List Open Ports:**
+    ```bash
+    firewall-cmd --list-ports
+    ```
