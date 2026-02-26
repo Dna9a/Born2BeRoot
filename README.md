@@ -238,4 +238,30 @@ To fulfill the project requirements of managing groups, here are the commands us
 😔🐪 i'll be loading more on my git only need to not forget
 
 
+# Wordpress & Lighttpd
+To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
+1.  **Install Lighttpd and PHP:**
+    ```bash
+    dnf install lighttpd php php-mysqlnd -y
+    ```
+2.  **Start and enable Lighttpd:**
+    ```bash
+    systemctl start lighttpd
+    systemctl enable lighttpd
+    ```
+3.  **Download and set up WordPress:**
+    ```bash
+    cd /var/www/html
+    wget https://wordpress.org/latest.tar.gz
+    tar -xzf latest.tar.gz
+    mv wordpress/* .
+    rm -rf wordpress latest.tar.gz
+    chown -R lighttpd:lighttpd /var/www/html
+    ```
+4.  **Configure Lighttpd for WordPress:**
+    Create a configuration file for your site:
+    ```bash
+    nano /etc/lighttpd/conf.d/wordpress.conf        
+    ```
+
 😀 am backk Yooo 
