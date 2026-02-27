@@ -37,7 +37,7 @@ while the virtual machine running on it is called the guest.
 ## Hypervisor
 It is `software` that sits in between the hardware and the VMs for the sake of managing resources for VMs. **The hypervisor** is divided into two types
 
-![iuhm](https://www.dnsstuff.com/wp-content/uploads/2019/10/what-is-hypervisor.jpg)
+![Hypervisor](https://github.com/Dna9a/Repo-s_assets/blob/main/what-is-hypervisor.jpg)
 
 ### Type 1 (Bare Metal)
 This type is a **native** solution that sits directly on top of the hardware. It is capable of acting as the operating system for the physical server, such as:
