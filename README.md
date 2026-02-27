@@ -62,12 +62,8 @@ We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUK
 `Get yourr self your OS iso` --> `Your supp to know why u chossed this last one` --> `create a machine on virtual box` 
 
 `Language` --> `Timezone` --> `Root & User Creds` 
-       |
-       V
 
 **(Switch to Shell)** --> `fdisk` (Partitioning) --> `LUKS` (Encryption) --> `LVM` (Logical Volumes)
-       |
-       V
 
 **(Resume Installer)** --> `Mount Points` --> `Begin Installation`
 
