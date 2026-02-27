@@ -64,9 +64,11 @@ We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUK
 `Language` --> `Timezone` --> `Root & User Creds` 
        |
        V
+
 **(Switch to Shell)** --> `fdisk` (Partitioning) --> `LUKS` (Encryption) --> `LVM` (Logical Volumes)
        |
        V
+
 **(Resume Installer)** --> `Mount Points` --> `Begin Installation`
 
 ![meme](https://i.programmerhumor.io/2025/10/c2e76d7d346a5067b76bddd6f61347d9c3d59221e88aaf341dd19583607f7a91.png)
