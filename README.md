@@ -5,6 +5,21 @@
   <span style="font-size: 40px;">🐪</span>
 </div>
 
+# Plan
+[Description](#description)
+[Instructions](#instructions)
+[Resources](#resources)
+[Project Description](#a-project-description)
+[Operating System & Design Choices](#-operating-system--design-choices)
+[Disk Partitioning](#disk-partitionning)
+[Text Mode (CLI)](#text-mode-cli)
+[Configuration Cheatsheet](#-configuration-cheatsheet)
+[WordPress & Lighttpd](#wordpress--lighttpd)
+[Game Hosting](#game-hosting)
+[Monitoring Script](#monitoring-script)
+[Conclusion](#conclusion)
+
+
 <!-- # Description-->
 # Description
 Virtualization is a technology used to create virtual representations of `servers`, `storage`, `networks`, and `other physical machines`.
@@ -72,7 +87,7 @@ We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUK
 - **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)**
 
 
-#  A Project description 
+# Project description 
 <!-- section must also explain the choice of operating system
 (Debian or Rocky), with their respective pros and cons. It must indicate the main
 design choices made during the setup (partitioning, security policies, user manage-
