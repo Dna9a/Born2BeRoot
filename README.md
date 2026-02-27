@@ -22,17 +22,9 @@
 
 <!-- # Description-->
 # Description
-Virtualization is a technology used to create virtual representations of `servers`, `storage`, `networks`, and `other physical machines`.
-Virtualization software `mimics` the functions of physical hardware, allowing multiple virtual machines to run simultaneously on a single physical machine.
-
 ## Virtualization
 
-Virtualization is a technology used to create virtual representations of `servers`, `storage`, `networks`, and `other physical machines`. Virtualization software
-
-`mimics` the functions of physical hardware, allowing multiple virtual machines to run simultaneously on a single physical machine. Businesses use virtualization to
-utilize hardware resources more efficiently and achieve better returns on their investment. It also powers cloud computing services, helping organizations `manage infrastructure`
-more effectively. Additionally, virtualization is a solution for limited hardware resources, as it provides users with an isolated environment. The physical machine is called the host,
-while the virtual machine running on it is called the guest.
+Virtualization is a technology used to create virtual representations of `servers`, `storage`, `networks`, and `other physical machines`. Virtualization software `mimics` the functions of physical hardware, allowing multiple virtual machines to run simultaneously on a single physical machine. Businesses use virtualization to utilize hardware resources more efficiently and achieve better returns on their investment. It also powers cloud computing services, helping organizations `manage infrastructure` more effectively. Additionally, virtualization is a solution for limited hardware resources, as it provides users with an isolated environment. The physical machine is called the host, while the virtual machine running on it is called the guest.
 
 ## Hypervisor
 It is `software` that sits in between the hardware and the VMs for the sake of managing resources for VMs. **The hypervisor** is divided into two types
@@ -72,14 +64,7 @@ We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUK
 
 
 # Project description 
-<!-- section must also explain the choice of operating system
-(Debian or Rocky), with their respective pros and cons. It must indicate the main
-design choices made during the setup (partitioning, security policies, user manage-
-ment, services installed) as well as a comparison between:
-◦Debian vs Rocky Linux
-◦AppArmor vs SELinux
-◦UFW vs firewalld
-◦VirtualBox vs UTM -->
+On this project i involved it into setting up a secure and efficient server environment that's using Rocky Linux. The main objectives include:
 
 ![iuhm](https://media.licdn.com/dms/image/v2/D5622AQG9dFW02IU-9A/feedshare-shrink_800/B56ZbYPI9nGoAo-/0/1747384573418?e=2147483647&v=beta&t=m3boBsHH2ilW3Tp01yPlAEz0wWAruQxbOWOQ-2MtaVo)
 
@@ -164,7 +149,7 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 | **Usage** | Designed for simplicity (e.g., `ufw allow 4242`). | Uses XML configuration and DBus. Complex zone management. |
 | **Target** | Single-host servers and beginners (Debian standard). | Complex network environments (RHEL standard). |
 
-# disk partitionning 
+# Disk Partitioning
 
  - fdisk vs. parted: A Brief Comparison
 
