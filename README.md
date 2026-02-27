@@ -42,11 +42,11 @@ It is `software` that sits in between the hardware and the VMs for the sake of m
 ### Type 1 (Bare Metal)
 This type is a **native** solution that sits directly on top of the hardware. It is capable of acting as the operating system for the physical server, such as:
 
-![iuhm](https://www.ubackup.com/screenshot/en/acb/virtual-machine/type-1-hypervisor-vs-type-2/type-1-hypervisor-examples.png)
+![Type 1](https://www.ubackup.com/screenshot/en/acb/virtual-machine/type-1-hypervisor-vs-type-2/type-1-hypervisor-examples.png)
 ### Type 2 (Hosted)
 It is software that sits on top of your main OS, such as:
 
-![iuhm](https://www.ubackup.com/screenshot/en/acb/virtual-machine/type-1-hypervisor-vs-type-2/type-2-hypervisor-examples.png)
+![Type 2](https://www.ubackup.com/screenshot/en/acb/virtual-machine/type-1-hypervisor-vs-type-2/type-2-hypervisor-examples.png)
 
 <!-- Instructions -->
 # Instructions
@@ -54,7 +54,7 @@ It is software that sits on top of your main OS, such as:
 ## Installation Workflow
 A followed exemple of me working on the apprapproach of how does Anaconda work in `text/shell` **mode**.
 
-![oo](https://fv5-5.files.fm/thumb_show.php?i=vn2e42yha6&view&v=1&PHPSESSID=58c01eb2a1ca8ecfa0e8f0ade6f6cd6112a9fb82)
+![oo](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/anaconda%20bad%20text%20mode.png)
 
 ### 2. Storage Configuration (Anaconda Shell)
 We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUKS encryption, and LVM.
