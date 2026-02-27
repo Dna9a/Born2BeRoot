@@ -6,18 +6,18 @@
 </div>
 
 # Plan
-## [Description](#description)
-## [Instructions](#instructions)
-## [Resources](#resources)
-## [Project Description](#a-project-description)
-## [Operating System & Design Choices](#-operating-system--design-choices)
-## [Disk Partitioning](#disk-partitionning)
-## [Text Mode (CLI)](#text-mode-cli)
-## [Configuration Cheatsheet](#-configuration-cheatsheet)
-## [WordPress & Lighttpd](#wordpress--lighttpd)
-## [Game Hosting](#game-hosting)
-## [Monitoring Script](#monitoring-script)
-## [Conclusion](#conclusion)
+#### ¤ [Description](#description)
+#### [Instructions](#instructions)
+#### [Resources](#resources)
+#### [Project Description](#a-project-description)
+#### [Operating System & Design Choices](#-operating-system--design-choices)
+#### [Disk Partitioning](#disk-partitionning)
+#### [Text Mode (CLI)](#text-mode-cli)
+#### [Configuration Cheatsheet](#-configuration-cheatsheet)
+#### [WordPress & Lighttpd](#wordpress--lighttpd)
+#### [Game Hosting](#game-hosting)
+#### [Monitoring Script](#monitoring-script)
+#### [Conclusion](#conclusion)
 
 
 <!-- # Description-->
