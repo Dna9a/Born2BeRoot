@@ -6,7 +6,7 @@
 </div>
 
 # Plan
-#### ¤ [Description](#description)
+#### [Description](#description)
 #### [Instructions](#instructions)
 #### [Resources](#resources)
 #### [Project Description](#a-project-description)
