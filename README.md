@@ -5,20 +5,20 @@
   <span style="font-size: 40px;">🐪</span>
 </div>
 
-# Plan
-#### [Description](#description)
-#### [Instructions](#instructions)
-#### [Resources](#resources)
-#### [Project Description](#a-project-description)
-#### [Operating System & Design Choices](#-operating-system--design-choices)
-#### [Disk Partitioning](#disk-partitionning)
-#### [Text Mode (CLI)](#text-mode-cli)
-#### [Configuration Cheatsheet](#-configuration-cheatsheet)
-#### [WordPress & Lighttpd](#wordpress--lighttpd)
-#### [Game Hosting](#game-hosting)
-#### [Monitoring Script](#monitoring-script)
-#### [Conclusion](#conclusion)
+## 📑 Table of Contents
 
+ - [Description](#description)
+ - [Instructions](#instructions)
+ - [Resources](#resources)
+ - [Project Description](#a-project-description)
+ - [Operating System & Design Choices](#-operating-system--design-choices)
+ - [Disk Partitioning](#disk-partitionning)
+ - [Text Mode (CLI)](#text-mode-cli)
+ - [Configuration Cheatsheet](#-configuration-cheatsheet)
+ - [WordPress & Lighttpd](#wordpress--lighttpd)
+ - [Game Hosting](#game-hosting)
+ - [Monitoring Script](#monitoring-script)
+ - [Conclusion](#conclusion)
 
 <!-- # Description-->
 # Description
@@ -71,20 +71,6 @@ We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUK
 
 ![meme](https://i.programmerhumor.io/2025/10/c2e76d7d346a5067b76bddd6f61347d9c3d59221e88aaf341dd19583607f7a91.png)
 
-
-<!-- Resources -->
-# Resources 
-
-- **[Amazon + A_pdf_Ofpp - Virtualization](https://aws.amazon.com/what-is/virtualization/)**
-- **[Wikipedia - luks ](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup)**
-- **[RedHat - luks](https://access.redhat.com/solutions/100463)**
-- **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)** 
-- **[RedHat - fdisk](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/storage_administration_guide/s2-disk-storage-parted-resize-part)**
-- **[AOMEI - Hypervisor](https://www.ubackup.com/enterprise-backup/type-1-hypervisor-vs-type-2.html)**
-- **[Rocky - Inst.text](https://forums.rockylinux.org/t/inst-text-not-working/4414)**
-- **[Rocky - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
-- **[RedHat - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
-- **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)**
 
 
 # Project description 
@@ -158,7 +144,8 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 | **Performance** | Excellent for x86-on-x86 virtualization. | Native speed on Apple Silicon (M-series) via Hypervisor.framework. |
 | **OS Support** | Cross-platform (Windows, Linux, macOS). | Exclusive to macOS/iOS. |
 
-------------------------------------------------------------------
+---
+
 ### AppArmor vs. SELinux
 
 ![VS](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*qycA2LkdLNir9BT9.jpg)
@@ -168,8 +155,6 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 | **Model** | Path-based access control. Profiles are attached to specific file paths. | Label-based access control. Files/processes are tagged with security contexts. |
 | **Ease of Use** | Generally considered easier to learn and configure. | Steeper learning curve; very granular but complex. |
 | **Mode** | Less intrusive; often defaults to "complain" mode. | Highly intrusive; enforces strict policies by default ("enforcing"). |
-
-
 
 ### UFW vs. Firewalld
 
@@ -181,26 +166,9 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 | **Usage** | Designed for simplicity (e.g., `ufw allow 4242`). | Uses XML configuration and DBus. Complex zone management. |
 | **Target** | Single-host servers and beginners (Debian standard). | Complex network environments (RHEL standard). |
 
-### Firewalld Configuration
-Rocky Linux uses `firewalld` by default.
-
-1.  **Check Status:**
-    ```bash
-    systemctl status firewalld
-    ```
-2.  **Add Port 4242 (SSH):**
-    ```bash
-    firewall-cmd --permanent --add-port=4242/tcp
-    firewall-cmd --reload
-    ```
-3.  **List Open Ports:**
-    ```bash
-    firewall-cmd --list-ports
-    ```
-
 # disk partitionning 
 
-- fdisk vs. parted: A Brief Comparison
+ - fdisk vs. parted: A Brief Comparison
 
 `fdisk` and `parted` are both powerful and widely used tools for partitioning disks in Linux systems. They have their `advantages` and specific use cases, but they also differ in some key aspects.
 
@@ -250,10 +218,25 @@ To fulfill the project requirements of managing groups, here are the commands us
     # Add the user
     usermod -aG user42 <username>
     ```
-😔🐪 i'll be loading more on my git only need to not forget
 
+## 🔥 Firewalld Configuration
+Rocky Linux uses `firewalld` by default.
 
-# Wordpress & Lighttpd
+1.  **Check Status:**
+    ```bash
+    systemctl status firewalld
+    ```
+2.  **Add Port 4242 (SSH):**
+    ```bash
+    firewall-cmd --permanent --add-port=4242/tcp
+    firewall-cmd --reload
+    ```
+3.  **List Open Ports:**
+    ```bash
+    firewall-cmd --list-ports
+    ```
+
+## 🌐 WordPress & Lighttpd
 To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
 1.  **Install Lighttpd and PHP:**
     ```bash
@@ -278,5 +261,20 @@ To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
     ```bash
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
+<!-- Resources -->
+# Resources 
 
+- **[Amazon + A_pdf_Ofpp - Virtualization](https://aws.amazon.com/what-is/virtualization/)**
+- **[Wikipedia - luks ](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup)**
+- **[RedHat - luks](https://access.redhat.com/solutions/100463)**
+- **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)** 
+- **[RedHat - fdisk](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/storage_administration_guide/s2-disk-storage-parted-resize-part)**
+- **[AOMEI - Hypervisor](https://www.ubackup.com/enterprise-backup/type-1-hypervisor-vs-type-2.html)**
+- **[Rocky - Inst.text](https://forums.rockylinux.org/t/inst-text-not-working/4414)**
+- **[Rocky - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
+- **[RedHat - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
+- **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)**
+
+
+😔🐪 i'll be loading more on my git only need to not forget
 😀 am backk Yooo 
