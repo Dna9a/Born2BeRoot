@@ -40,6 +40,19 @@ It is software that sits on top of your main OS, such as:
 
 ![Type 2](https://www.ubackup.com/screenshot/en/acb/virtual-machine/type-1-hypervisor-vs-type-2/type-2-hypervisor-examples.png)
 
+<!-- Resources -->
+# Resources 
+- **[Amazon + A_pdf_Ofpp - Virtualization](https://aws.amazon.com/what-is/virtualization/)**
+- **[Wikipedia - luks ](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup)**
+- **[RedHat - luks](https://access.redhat.com/solutions/100463)**
+- **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)** 
+- **[RedHat - fdisk](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/storage_administration_guide/s2-disk-storage-parted-resize-part)**
+- **[AOMEI - Hypervisor](https://www.ubackup.com/enterprise-backup/type-1-hypervisor-vs-type-2.html)**
+- **[Rocky - Inst.text](https://forums.rockylinux.org/t/inst-text-not-working/4414)**
+- **[Rocky - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
+- **[RedHat - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
+- **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)** 
+
 <!-- Instructions -->
 # Instructions
 
@@ -302,16 +315,3 @@ echo " .-----------------. .----------------.  .----------------.  .------------
 | '--------------' || '--------------' || '--------------' || '--------------' |
  '----------------'  '----------------'  '----------------'  '----------------' "
 ```
-<!-- Resources -->
-# Resources 
-
-- **[Amazon + A_pdf_Ofpp - Virtualization](https://aws.amazon.com/what-is/virtualization/)**
-- **[Wikipedia - luks ](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup)**
-- **[RedHat - luks](https://access.redhat.com/solutions/100463)**
-- **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)** 
-- **[RedHat - fdisk](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/storage_administration_guide/s2-disk-storage-parted-resize-part)**
-- **[AOMEI - Hypervisor](https://www.ubackup.com/enterprise-backup/type-1-hypervisor-vs-type-2.html)**
-- **[Rocky - Inst.text](https://forums.rockylinux.org/t/inst-text-not-working/4414)**
-- **[Rocky - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
-- **[RedHat - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
-- **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)** 
