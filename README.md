@@ -7,18 +7,19 @@
 
 ## 📑 Table of Contents
 
- - [Description](#description)
-    - [Resources](#resources)
-    - [Instructions](#instructions)
-    - [Project description](#project-description)
-    - [Operating System & Design Choices](#operating-system--design-choices)
-    - [Disk Partitioning](#disk-partitioning)
-    - [Text Mode (CLI)](#text-mode-cli)
-    - [Configuration Cheatsheet](#configuration-cheatsheet)
-    - [Game Hosting](#game-hosting)
-    - [Monitoring Script](#monitoring-script)
-    - [Conclusion](#conclusion)
-    
+- [Description](#description)
+- [Instructions](#instructions)
+- [Project Description](#project-description)
+- [Operating System & Design Choices](#operating-system--design-choices)
+- [Disk Partitioning](#disk-partitioning)
+- [Text Mode (CLI)](#text-mode-cli)
+- [Configuration Cheatsheet](#configuration-cheatsheet)
+- [WordPress & Lighttpd](#wordpress--lighttpd)
+- [Game Hosting](#game-hosting)
+- [Monitoring Script](#monitoring-script)
+- [Resources](#resources)
+- [Conclusion](#conclusion)
+
 
 
 <!-- # Description-->
@@ -194,7 +195,7 @@ Instead of clicking icons, the user types commands into a shell (like Bash). The
 
 # ⚙️ Configuration Cheatsheet
 
-### User & Group Management (Rocky Linux)
+## User & Group Management (Rocky Linux)
 To fulfill the project requirements of managing groups, here are the commands used:
 
 1.  **Check existing groups for a user:**
@@ -216,7 +217,7 @@ To fulfill the project requirements of managing groups, here are the commands us
     usermod -aG user42 <username>
     ```
 
-# 🔥 Firewalld Configuration
+## 🔥 Firewalld Configuration
 Rocky Linux uses `firewalld` by default.
 
 1.  **Check Status:**
@@ -233,7 +234,7 @@ Rocky Linux uses `firewalld` by default.
     firewall-cmd --list-ports
     ```
 
-# 🌐 WordPress & Lighttpd
+## 🌐 WordPress & Lighttpd
 To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
 1.  **Install Lighttpd and PHP:**
     ```bash
@@ -258,6 +259,7 @@ To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
     ```bash
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
+
 # 🎮 Game Hosting
 
 # 🖥️ Monitoring Script
@@ -320,9 +322,6 @@ echo " .-----------------. .----------------.  .----------------.  .------------
 
 # Conclusion
 
-
-
-
-
+I've successfully completed the Born2BeRoot project, setting up a secure and optimized server environment using Rocky Linux. This project covered essential skills in virtualization, disk management, and server security.
 
 <!-- I still need to add my lightpd & wordpress configuration files, I will update this section once i do so. -->
