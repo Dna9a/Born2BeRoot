@@ -15,7 +15,7 @@
 - [Text Mode (CLI)](#text-mode-cli)
 - [Configuration Cheatsheet](#configuration-cheatsheet)
 - [WordPress & Lighttpd](#wordpress--lighttpd)
-- [Game Hosting](#game-hosting)
+- [Extra Service](#extra-service)
 - [Monitoring Script](#monitoring-script)
 - [Resources](#resources)
 - [Conclusion](#conclusion)
@@ -259,8 +259,8 @@ To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
     ```bash
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
-
-# 🎮 Game Hosting
+# 🎮 Extra-service
+Reaching the extra service requirement, I decided to host a Unity-based video game project on the server using Lighttpd and WordPress. This involved setting up a web server to serve the game files and a website to provide information about the game, at this point i was so lazy that i only eneded up by having a background made up by Canva thanks to my laziness HHHH no HTML just a Canva background.
 
 # 🖥️ Monitoring Script
 
