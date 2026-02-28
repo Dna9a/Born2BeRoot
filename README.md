@@ -8,16 +8,17 @@
 ## 📑 Table of Contents
 
  - [Description](#description)
- - [Resources](#resources)
- - [Instructions](#instructions)
- - [Project Description](#project-description)
- - [Operating System & Design Choices](#operating-system--design-choices)
- - [Disk Partitioning](#disk-partitioning)
- - [Text Mode (CLI)](#text-mode-cli)
- - [WordPress & Lighttpd](#wordpress--lighttpd)
- - [Game Hosting](#game-hosting)
- - [Monitoring Script](#monitoring-script)
- - [Conclusion](#conclusion)
+    - [Resources](#resources)
+    - [Instructions](#instructions)
+    - [Project description](#project-description)
+    - [Operating System & Design Choices](#operating-system--design-choices)
+    - [Disk Partitioning](#disk-partitioning)
+    - [Text Mode (CLI)](#text-mode-cli)
+    - [Configuration Cheatsheet](#configuration-cheatsheet)
+    - [Game Hosting](#game-hosting)
+    - [Monitoring Script](#monitoring-script)
+    - [Conclusion](#conclusion)
+    
 
 
 <!-- # Description-->
@@ -215,7 +216,7 @@ To fulfill the project requirements of managing groups, here are the commands us
     usermod -aG user42 <username>
     ```
 
-## 🔥 Firewalld Configuration
+# 🔥 Firewalld Configuration
 Rocky Linux uses `firewalld` by default.
 
 1.  **Check Status:**
@@ -232,7 +233,7 @@ Rocky Linux uses `firewalld` by default.
     firewall-cmd --list-ports
     ```
 
-## 🌐 WordPress & Lighttpd
+# 🌐 WordPress & Lighttpd
 To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
 1.  **Install Lighttpd and PHP:**
     ```bash
@@ -257,9 +258,9 @@ To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
     ```bash
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
-## 🎮 Game Hosting
+# 🎮 Game Hosting
 
-## 🖥️ Monitoring Script
+# 🖥️ Monitoring Script
 
 ```shell
 #!/bin/bash
