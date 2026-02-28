@@ -9,16 +9,16 @@
 
  - [Description](#description)
  - [Instructions](#instructions)
- - [Resources](#resources)
- - [Project Description](#a-project-description)
- - [Operating System & Design Choices](#-operating-system--design-choices)
- - [Disk Partitioning](#disk-partitionning)
+ - [Project Description](#project-description)
+ - [Operating System & Design Choices](#operating-system--design-choices)
+ - [Disk Partitioning](#disk-partitioning)
  - [Text Mode (CLI)](#text-mode-cli)
- - [Configuration Cheatsheet](#-configuration-cheatsheet)
+ - [Resources](#resources)
  - [WordPress & Lighttpd](#wordpress--lighttpd)
  - [Game Hosting](#game-hosting)
  - [Monitoring Script](#monitoring-script)
  - [Conclusion](#conclusion)
+
 
 <!-- # Description-->
 # Description
@@ -44,14 +44,14 @@ It is software that sits on top of your main OS, such as:
 # Instructions
 
 ## Installation Workflow
-A followed exemple of me working on the apprapproach of how does Anaconda work in `text/shell` **mode**.
+A followed example of me working on the approach of how does Anaconda work in `text/shell` **mode**.
 
 ![oo](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/anaconda%20bad%20text%20mode.png)
 
 ### 2. Storage Configuration (Anaconda Shell)
 We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUKS encryption, and LVM.
 
-`Get yourr self your OS iso` --> `Your supp to know why u chossed this last one` --> `create a machine on virtual box` 
+`Get yourself your OS iso` --> `You're supposed to know why you chose this last one` --> `create a machine on virtual box` 
 
 `Language` --> `Timezone` --> `Root & User Creds` 
 
@@ -72,11 +72,11 @@ On this project i involved it into setting up a secure and efficient server envi
 # 🐧 Operating System & Design Choices
 
 ## 1. Choice of Operating System
-For this project, I chose **Rocky** over Debain Linux because basically why not.
+For this project, I chose **Rocky** over Debian Linux because basically why not.
 ![Rocky](https://www.wbaboxing.com/wp-content/uploads/2023/02/rockyy.jpeg)
 
 ### Debian vs. Rocky Linux
-| Feature | Debian (Selected) | Rocky Linux |
+| Feature | Debian | Rocky Linux (Selected) |
 | :--- | :--- | :--- |
 | **Philosophy** | Strictly open-source, community-driven project . | Enterprise-focused, bug-for-bug compatible with RHEL. |
 | **Package Manager** | `APT` (Advanced Package Tool) & `.deb` packages. | `DNF` / `YUM` & `.rpm` packages. |
@@ -89,11 +89,6 @@ For this project, I chose **Rocky** over Debain Linux because basically why not.
 ## 2. Design Choices & Policies
 
 To ensure a secure and efficient server environment, the following configurations were implemented:
-
-### Partitioning
-I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** partition. This structure allows for dynamic resizing of partitions and ensures data security at rest.
-*   `/boot`: Unencrypted (required for bootloader).
-*   `LVM`: Encrypted volume containing logical volumes for `/root`, `/home`, `/var`, etc.
 
 ### Security Policies
 *   **Password Policy:** strict rules for password complexity and expiration (via `pwquality`).
@@ -151,7 +146,12 @@ I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** pa
 
 # Disk Partitioning
 
- - fdisk vs. parted: A Brief Comparison
+## 1. LVM & LUKS Configuration
+For this project, I utilized **LVM (Logical Volume Management)** within an **Encrypted (LUKS)** partition. This structure allows for dynamic resizing of partitions and ensures data security at rest.
+*   `/boot`: Unencrypted (required for bootloader).
+*   `LVM`: Encrypted volume containing logical volumes for `/root`, `/home`, `/var`, etc.
+
+## 2. fdisk vs. parted: A Brief Comparison
 
 `fdisk` and `parted` are both powerful and widely used tools for partitioning disks in Linux systems. They have their `advantages` and specific use cases, but they also differ in some key aspects.
 
@@ -244,6 +244,64 @@ To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
     ```bash
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
+
+## 🖥️ Monitoring Script
+
+```shell
+#!/bin/bash
+
+ARCH=$(uname -a)
+
+CPU_PHYSICAL=$(lscpu | awk '/Socket\(s\)/ {print $2}')
+VCPU=$(lscpu | awk '/^CPU\(s\)/ {print $2}')
+
+RAM=$(free -m | awk '/Mem:/ { printf "%d/%dMB (%.2f%%)", $3, $2, $3*100/$2 }')
+
+DISK=$(df -m --total | awk '/total/ {printf "%d/%dMB (%s)", $3, $2, $5}')
+
+CPU_LOAD=$(top -bn1 | awk '/Cpu\(s\)/ {printf "%.1f%%", 100 - $8}')
+
+LAST_BOOT=$(who -b | awk '{print $3 " " $4}')
+
+LVM_USE=$(lsblk | grep -q lvm && echo "yes" || echo "no")
+
+TCP_CONN=$(ss -tn state established | wc -l)
+
+USER_LOG=$(who | awk '{print $1}' | sort -u | wc -l)
+
+IP=$(hostname -I | awk '{print $1}')
+
+#MAC=$(ip a | grep "link/ether" | awk '{print $2}')
+MAC=$(nmcli device show | grep GENERAL.HWADDR: | head -1 | awk '{printf "%s", $2}')
+SUDO_CMDS=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
+
+wall "
+#Architecture: $ARCH
+#CPU physical : $CPU_PHYSICAL
+#vCPU : $VCPU
+#Memory Usage: $RAM
+#Disk Usage: $DISK
+#CPU load: $CPU_LOAD
+#Last boot: $LAST_BOOT
+#LVM use: $LVM_USE
+#Connections TCP : $TCP_CONN ESTABLISHED
+#User log: $USER_LOG
+#Network: IP $IP $(echo -n "(")$MAC$(echo -n ")")
+#Sudo : $SUDO_CMDS cmd
+"
+
+echo " .-----------------. .----------------.  .----------------.  .----------------.
+| .--------------. || .--------------. || .--------------. || .--------------. |
+| | ____  _____  | || |      __      | || |    ______    | || |      __      | |
+| ||_   \|_   _| | || |     /  \     | || |  .' ____ '.  | || |     /  \     | |
+| |  |   \ | |   | || |    / /\ \    | || |  | (____) |  | || |    / /\ \    | |
+| |  | |\ \| |   | || |   / ____ \   | || |  '_.____. |  | || |   / ____ \   | |
+| | _| |_\   |_  | || | _/ /    \ \_ | || |  | \____| |  | || | _/ /    \ \_ | |
+| ||_____|\____| | || ||____|  |____|| || |   \______,'  | || ||____|  |____|| |
+| |              | || |              | || |              | || |              | |
+| '--------------' || '--------------' || '--------------' || '--------------' |
+ '----------------'  '----------------'  '----------------'  '----------------' "
+```
 <!-- Resources -->
 # Resources 
 
@@ -256,8 +314,4 @@ To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
 - **[Rocky - Inst.text](https://forums.rockylinux.org/t/inst-text-not-working/4414)**
 - **[Rocky - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
 - **[RedHat - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
-- **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)**
-
-
-😔🐪 i'll be loading more on my git only need to not forget
-😀 am backk Yooo 
+- **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)** 
