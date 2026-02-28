@@ -8,12 +8,12 @@
 ## 📑 Table of Contents
 
  - [Description](#description)
+ - [Resources](#resources)
  - [Instructions](#instructions)
  - [Project Description](#project-description)
  - [Operating System & Design Choices](#operating-system--design-choices)
  - [Disk Partitioning](#disk-partitioning)
  - [Text Mode (CLI)](#text-mode-cli)
- - [Resources](#resources)
  - [WordPress & Lighttpd](#wordpress--lighttpd)
  - [Game Hosting](#game-hosting)
  - [Monitoring Script](#monitoring-script)
@@ -42,7 +42,7 @@ It is software that sits on top of your main OS, such as:
 
 <!-- Resources -->
 # Resources 
-- **[Amazon + A_pdf_Ofpp - Virtualization](https://aws.amazon.com/what-is/virtualization/)**
+- **[Amazon + a_pdf_from_ofppt - Virtualization](https://aws.amazon.com/what-is/virtualization/)**
 - **[Wikipedia - luks ](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup)**
 - **[RedHat - luks](https://access.redhat.com/solutions/100463)**
 - **[Peers - luks](https://profile-v3.intra.42.fr/users/amedina)** 
@@ -257,6 +257,7 @@ To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
     ```bash
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
+## 🎮 Game Hosting
 
 ## 🖥️ Monitoring Script
 
@@ -315,3 +316,12 @@ echo " .-----------------. .----------------.  .----------------.  .------------
 | '--------------' || '--------------' || '--------------' || '--------------' |
  '----------------'  '----------------'  '----------------'  '----------------' "
 ```
+
+# Conclusion
+
+
+
+
+
+
+<!-- I still need to add my lightpd & wordpress configuration files, I will update this section once i do so. -->
