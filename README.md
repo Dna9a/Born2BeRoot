@@ -259,6 +259,9 @@ To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
     ```bash
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
+### WordPress Page
+Settuping the page for my wordpress and since i have no time and no life i decided to not go easy on my self and make it fun good and beautiful talking about personal life and all that HHHH, its beautiful and i am proud of it, i will update it if i remember to do so, but for now its a masterpiece that i am proud of.
+
 # 🎮 Extra-service
 Reaching the extra service requirement, I decided to host a Unity-based video game project on the server using Lighttpd and WordPress. This involved setting up a web server to serve the game files and a website to provide information about the game, at this point i was so lazy that i only eneded up by having a background made up by Canva thanks to my laziness HHHH no HTML just a Canva background.
 
