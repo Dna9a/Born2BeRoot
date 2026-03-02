@@ -235,7 +235,7 @@ Rocky Linux uses `firewalld` by default.
     ```
 
 ## 🌐 WordPress & Lighttpd
-To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
+To set up a `WordPress` site using Lighttpd on Rocky Linux, follow these steps:
 1.  **Install Lighttpd and PHP:**
     ```bash
     dnf install lighttpd php php-mysqlnd -y
@@ -260,11 +260,23 @@ To set up a WordPress site using Lighttpd on Rocky Linux, follow these steps:
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
 ### WordPress Page
-Settuping the page for my wordpress and since i have no time and no life i decided to not go easy on my self and make it fun good and beautiful talking about personal life and all that HHHH, its beautiful and i am proud of it, i will update it if i remember to do so, but for now its a masterpiece that i am proud of.
+Settuping the page for my `WordPress` and since i have no time and no life i decided to not go easy on my self and make it fun ,good & educationnal talking about personal life and all that HHHH, its beautiful and i am proud of it, i will update it if i remember to do so, but for evaluation it was a masterpiece that i am proud of.
+
+# Learning the basics of how to make a wordpress 
+During the making of the `WordPress` page, I realized the fact that it seemed so much like a Canva building presentation no html interface just a background and some text, so i decided to build it like that and as a way to learn how to make a `WordPress` page i ended up with this : 
+![Wordpress page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/The%20weebpage%20.png) 
+
+# A switch 
+Swich in between the idea of building a website by just a the `WordPress` interface to building it from scratch by using `HTML` and `Claude` it wasnt that bad it was actualy great like
+![HTML page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/The%20weebpage%20.png) 
 
 # 🎮 Extra-service
-Reaching the extra service requirement, I decided to host a Unity-based video game project on the server using Lighttpd and WordPress. This involved setting up a web server to serve the game files and a website to provide information about the game, at this point i was so lazy that i only eneded up by having a background made up by Canva thanks to my laziness HHHH no HTML just a Canva background.
+Reaching the extra service requirement, I decided to host a Unity-based video game project on the server using `Lighttpd` and `WordPress` localy. This involved setting up a web server to serve the game files , at this point i was so lazy that i only eneded up by having a background made up by Canva thanks to my laziness HHHH no HTML just a Canva background, other than that The game was 
 
+## Remacking of lightyptd config file :
+```bash
+
+```
 # 🖥️ Monitoring Script
 
 ```shell
@@ -327,4 +339,11 @@ echo " .-----------------. .----------------.  .----------------.  .------------
 
 I've successfully completed the Born2BeRoot project, setting up a secure and optimized server environment using Rocky Linux. This project covered essential skills in virtualization, disk management, and server security.
 
-<!-- I still need to add my lightpd & wordpress configuration files, I will update this section once i do so. -->
+<!-- I still need to add my lightpd & `WordPress` configuration files, I will update this section once i do so. -->
+
+![](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Creating%20both%20the%20first%20page%20name%20and%20the%20user%20acc.png)
+
+![](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/creating%20a%20WP%20acc.png)
+
+![WordPress config files](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Settuping%20the%20wp-config%20files%20.png)
+
