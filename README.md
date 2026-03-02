@@ -21,7 +21,7 @@
 - [Conclusion](#conclusion)
 
 
-<!-- # Description-->
+    <!-- # Description-->
 # Description
 ## Virtualization
 
@@ -267,14 +267,18 @@ During the making of the `WordPress` page, I realized the fact that it seemed so
 ![Wordpress page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/The%20weebpage%20.png) 
 
 # A switch 
-Switch in between the idea of building a website by just a the `WordPress` interface to building it from scratch by using `HTML` and `Claude` it wasn't that bad it was actually great like
+Switch in between the idea of building a website by just a the `WordPress` interface to building it from scratch by using `HTML` and `Claude` it wasn't that bad it was actually great like :
 
-![HTML page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/The%20weebpage%20.png) 
+![HTML page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Na9a's%20Word.png) 
 
 # 🎮 Extra-service
-Reaching the extra service requirement, I decided to host a Unity-based video game project on the server using `Lighttpd` and `WordPress`. This involved setting up a web server to serve the game files, at this point I was so lazy that I only ended up by having a background made up by `Canva` thanks to my laziness HHHH no `HTML` just a `Canva` background, other than that the game was also hosted on localhost but bounded through TCP connection via the port 2504 basically `localhost:2504`, the game was a simple 2D top-down game that I made in unity me and my friends through a GameJam themed `Echo`
+
+Reaching the extra service requirement, I decided to host a Unity-based video game project on the server using `Lighttpd` and `WordPress`. This involved setting up a web server to serve the game files, at this point I was so lazy that I only ended up by having a background made up by `Canva` thanks to my laziness HHHH no `HTML` just a `Canva` background, other than that the game was also hosted on localhost but bounded through TCP connection via the port 2504 basically `localhost:2504`, the game was a simple 2D top-down game that I made in unity me and my friends through the `MGJ2` GameJam themed `Echo` and the game is all about a little girl who's trying to find her way back home while being stuck in a old mention and that's by following the echoes of sum left behind notes,here is a screenshot of the game:
+
+![Game Screenshot](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Game%20.png)
 
 ## Remaking of lighttpd config file :
+
 ```bash
 
 ```
