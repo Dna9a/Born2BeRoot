@@ -21,7 +21,6 @@
 - [Conclusion](#conclusion)
 
 
-
 <!-- # Description-->
 # Description
 ## Virtualization
@@ -79,7 +78,7 @@ We bypass the automatic partitioner to perform a custom setup using `fdisk`, LUK
 
 
 # Project description 
-On this project i involved it into setting up a secure and efficient server environment that's using Rocky Linux. The main objectives include:
+On this project I involved it into setting up a secure and efficient server environment that's using Rocky Linux. The main objectives include:
 
 ![iuhm](https://media.licdn.com/dms/image/v2/D5622AQG9dFW02IU-9A/feedshare-shrink_800/B56ZbYPI9nGoAo-/0/1747384573418?e=2147483647&v=beta&t=m3boBsHH2ilW3Tp01yPlAEz0wWAruQxbOWOQ-2MtaVo)
 
@@ -260,22 +259,22 @@ To set up a `WordPress` site using Lighttpd on Rocky Linux, follow these steps:
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
 ### WordPress Page
-Settuping the page for my `WordPress` and since i have no time and no life i decided to not go easy on my self and make it fun ,good & educationnal talking about personal life and all that HHHH, its beautiful and i am proud of it, i will update it if i remember to do so, but for evaluation it was a masterpiece that i am proud of.
+Setting up the page for my `WordPress` and since I have no time and no life I decided to not go easy on myself and make it fun, good & educational talking about personal life and all that HHHH, it's beautiful and I am proud of it, I will update it if I remember to do so, but for evaluation it was a masterpiece that I am proud of.
 
-# Learning the basics of how to make a wordpress 
-During the making of the `WordPress` page, I realized the fact that it seemed so much like a Canva building presentation no html interface just a background and some text, so i decided to build it like that and as a way to learn how to make a `WordPress` page i ended up with this : 
+# Learning the basics of how to make a WordPress 
+During the making of the `WordPress` page, I realized the fact that it seemed so much like a Canva building presentation no HTML interface just a background and some text, so I decided to build it like that and as a way to learn how to make a `WordPress` page I ended up with this: 
 
 ![Wordpress page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/The%20weebpage%20.png) 
 
 # A switch 
-Swich in between the idea of building a website by just a the `WordPress` interface to building it from scratch by using `HTML` and `Claude` it wasnt that bad it was actualy great like
+Switch in between the idea of building a website by just a the `WordPress` interface to building it from scratch by using `HTML` and `Claude` it wasn't that bad it was actually great like
 
 ![HTML page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/The%20weebpage%20.png) 
 
 # 🎮 Extra-service
-Reaching the extra service requirement, I decided to host a Unity-based video game project on the server using `Lighttpd` and `WordPress` localy. This involved setting up a web server to serve the game files , at this point i was so lazy that i only eneded up by having a background made up by Canva thanks to my laziness HHHH no HTML just a Canva background, other than that The game was 
+Reaching the extra service requirement, I decided to host a Unity-based video game project on the server using `Lighttpd` and `WordPress`. This involved setting up a web server to serve the game files, at this point I was so lazy that I only ended up by having a background made up by `Canva` thanks to my laziness HHHH no `HTML` just a `Canva` background, other than that the game was also hosted on localhost but bounded through TCP connection via the port 2504 basically `localhost:2504`, the game was a simple 2D top-down game that I made in unity me and my friends through a GameJam themed `Echo`
 
-## Remacking of lightyptd config file :
+## Remaking of lighttpd config file :
 ```bash
 
 ```
@@ -341,7 +340,7 @@ echo " .-----------------. .----------------.  .----------------.  .------------
 
 I've successfully completed the Born2BeRoot project, setting up a secure and optimized server environment using Rocky Linux. This project covered essential skills in virtualization, disk management, and server security.
 
-<!-- I still need to add my lightpd & `WordPress` configuration files, I will update this section once i do so. -->
+<!-- I still need to add my lighttpd & `WordPress` configuration files, I will update this section once I do so. -->
 
 ![popo](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Creating%20both%20the%20first%20page%20name%20and%20the%20user%20acc.png)
 
