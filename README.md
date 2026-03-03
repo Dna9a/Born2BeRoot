@@ -258,6 +258,11 @@ To set up a `WordPress` site using Lighttpd on Rocky Linux, follow these steps:
     ```bash
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
+    Add the following content:
+    ```conf 
+
+![WordPress config files](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Settuping%20the%20wp-config%20files%20.png)
+
 # 📄 WordPress Page
 
 ## Installation & Setup
@@ -283,6 +288,7 @@ Setting up the page for my `WordPress` and since I have no time and no life I de
 Switch in between the idea of building a website by just a the `WordPress` "canvas like" interface, to building it from scratch by using `HTML` and `Claude` it wasn't that bad it was actually great like :
 
 ![HTML page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Na9a's%20Word.png) 
+
 
 # 🎮 Extra-service
 
@@ -361,5 +367,4 @@ I've successfully completed the Born2BeRoot project, setting up a secure and opt
 
 
 
-![WordPress config files](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Settuping%20the%20wp-config%20files%20.png)
 
