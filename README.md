@@ -258,16 +258,29 @@ To set up a `WordPress` site using Lighttpd on Rocky Linux, follow these steps:
     ```bash
     nano /etc/lighttpd/conf.d/wordpress.conf        
     ```
-### WordPress Page
-Setting up the page for my `WordPress` and since I have no time and no life I decided to not go easy on myself and make it fun, good & educational talking about personal life and all that HHHH, it's beautiful and I am proud of it, I will update it if I remember to do so, but for evaluation it was a masterpiece that I am proud of.
+# 📄 WordPress Page
 
-# Learning the basics of how to make a WordPress 
-During the making of the `WordPress` page, I realized the fact that it seemed so much like a Canva building presentation no HTML interface just a background and some text, so I decided to build it like that and as a way to learn how to make a `WordPress` page I ended up with this: 
+## Installation & Setup
+Getting into wordpress on Rocky Linux, the installation process was pretty straightforward and easy to follow, I won't go into details about the installation process since it's pretty well documented online, but I will share some screenshots of the process and the final result.
 
-![Wordpress page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/The%20weebpage%20.png) 
+in here you basicaly have the Welcome page of the `WordPress` installation where you have to choose a title for you wordpress page and create an admin account for it using both `Username` `Password` and `email`, I went with the name of `Na9a's wordpress` for the page and for the admin account I went with my login `yoabied` as a username and a random password.'
+Here is a screenshot of the welcome page:
 
-# A switch 
-Switch in between the idea of building a website by just a the `WordPress` interface to building it from scratch by using `HTML` and `Claude` it wasn't that bad it was actually great like :
+![Welcome Page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/creating%20a%20WP%20acc.png)
+
+After that you'll meet a datebase page where you have to fill in the database credentials that you created for the `WordPress` page, I went with the name of `wordpress` for the database and `wpuser` as a username and a default password as it didnt matter for me, here is a screenshot of the database page:
+
+![Wordpress Databass](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Creating%20both%20the%20first%20page%20name%20and%20the%20user%20acc.png)
+
+
+## Learning the basics of how to make a WordPress 
+Setting up the page for my `WordPress` and since I have no time and no life I decided to not go easy on myself and make it fun, good & educational talking about personal life and all that HHHH, it's beautiful and I am proud of it, making two pages i will update it if I remember to do so, but for evaluation it was a masterpiece that I am proud of.
+- During the making of the `WordPress` page, I realized the fact that it seemed so much like a Canva building presentation no HTML interface just a background and some text, so I decided to build it like that and as a way to learn how to make a `WordPress` page I ended up with this: 
+
+![WordPress page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/The%20weebpage%20.png) 
+
+## A switch
+Switch in between the idea of building a website by just a the `WordPress` "canvas like" interface, to building it from scratch by using `HTML` and `Claude` it wasn't that bad it was actually great like :
 
 ![HTML page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Na9a's%20Word.png) 
 
@@ -346,9 +359,7 @@ I've successfully completed the Born2BeRoot project, setting up a secure and opt
 
 <!-- I still need to add my lighttpd & `WordPress` configuration files, I will update this section once I do so. -->
 
-![popo](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Creating%20both%20the%20first%20page%20name%20and%20the%20user%20acc.png)
 
-![pipi](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/creating%20a%20WP%20acc.png)
 
 ![WordPress config files](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Settuping%20the%20wp-config%20files%20.png)
 
