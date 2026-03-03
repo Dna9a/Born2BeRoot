@@ -266,11 +266,11 @@ Getting into wordpress on Rocky Linux, the installation process was pretty strai
 in here you basicaly have the Welcome page of the `WordPress` installation where you have to choose a title for you wordpress page and create an admin account for it using both `Username` `Password` and `email`, I went with the name of `Na9a's wordpress` for the page and for the admin account I went with my login `yoabied` as a username and a random password.'
 Here is a screenshot of the welcome page:
 
-![Welcome Page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/creating%20a%20WP%20acc.png)
+![Welcome Page](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Welcome.png)
 
 After that you'll meet a datebase page where you have to fill in the database credentials that you created for the `WordPress` page, I went with the name of `wordpress` for the database and `wpuser` as a username and a default password as it didnt matter for me, here is a screenshot of the database page:
 
-![Wordpress Databass](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Creating%20both%20the%20first%20page%20name%20and%20the%20user%20acc.png)
+![Wordpress Databass](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Database.png)
 
 
 ## Learning the basics of how to make a WordPress 
