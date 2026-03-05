@@ -366,5 +366,9 @@ I've successfully completed the Born2BeRoot project, setting up a secure and opt
 <!-- I still need to add my lighttpd & `WordPress` configuration files, I will update this section once I do so. -->
 
 
+# THIS README IS STILL UNDERCONSTRUCTION 
+<img width="220" height="124" alt="image" src="https://github.com/user-attachments/assets/d28d98bc-7152-4a78-9e69-be747a7d6201" />
+
+
 
 
