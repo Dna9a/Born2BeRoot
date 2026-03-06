@@ -359,9 +359,6 @@ echo " .-----------------. .----------------.  .----------------.  .------------
  '----------------'  '----------------'  '----------------'  '----------------' "
 ```
 
-![Builder](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/lbenay.gif)
-
-
 # Conclusion
 
 I've successfully completed the Born2BeRoot project, setting up a secure and optimized server environment using Rocky Linux. This project covered essential skills in virtualization, disk management, and server security.
@@ -371,4 +368,5 @@ I've successfully completed the Born2BeRoot project, setting up a secure and opt
 
 # THIS README IS STILL UNDERCONSTRUCTION 
 
+![Builder](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/lbenay.gif)
 
