@@ -368,5 +368,5 @@ I've successfully completed the Born2BeRoot project, setting up a secure and opt
 
 # THIS README IS STILL UNDERCONSTRUCTION 
 
-![Builder](https://media1.tenor.com/m/1l9R9y3_WIkAAAAC/jack-hammer-construction-worker.gif)
+![Builder](https://tenor.com/view/mxstery-gif-3986214086668732285)
 
