@@ -359,7 +359,7 @@ echo " .-----------------. .----------------.  .----------------.  .------------
  '----------------'  '----------------'  '----------------'  '----------------' "
 ```
 
-![Builder](https://media1.tenor.com/m/N1Hgl4qMR30AAAAC/mxstery.gif)
+![Builder](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/lbenay.gif)
 
 
 # Conclusion
