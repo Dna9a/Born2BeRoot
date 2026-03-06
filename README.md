@@ -359,6 +359,9 @@ echo " .-----------------. .----------------.  .----------------.  .------------
  '----------------'  '----------------'  '----------------'  '----------------' "
 ```
 
+![Builder](https://media1.tenor.com/m/N1Hgl4qMR30AAAAC/mxstery.gif)
+
+
 # Conclusion
 
 I've successfully completed the Born2BeRoot project, setting up a secure and optimized server environment using Rocky Linux. This project covered essential skills in virtualization, disk management, and server security.
@@ -368,5 +371,4 @@ I've successfully completed the Born2BeRoot project, setting up a secure and opt
 
 # THIS README IS STILL UNDERCONSTRUCTION 
 
-![Builder](https://media1.tenor.com/m/N1Hgl4qMR30AAAAC/mxstery.gif)
 
