@@ -54,11 +54,11 @@ It is `software` that sits in between the hardware and the VMs for the sake of m
 ### Type 1 (Bare Metal)
 This type is a **native** solution that sits directly on top of the hardware. It is capable of acting as the operating system for the physical server, such as:
 
-![Type 1](https://www.ubackup.com/screenshot/en/acb/virtual-machine/type-1-hypervisor-vs-type-2/type-1-hypervisor-examples.png)
+![Type 1](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Type%201%20.png)
 ### Type 2 (Hosted)
 It is software that sits on top of your main OS, such as:
 
-![Type 2](https://www.ubackup.com/screenshot/en/acb/virtual-machine/type-1-hypervisor-vs-type-2/type-2-hypervisor-examples.png)
+![Type 2](https://github.com/Dna9a/Repo-s_assets/blob/main/B2R/Type%202%20.png)
 
 <!-- Resources -->
 # Resources 
