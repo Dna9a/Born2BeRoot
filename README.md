@@ -7,6 +7,7 @@
 
 ## 📑 Table of Contents
 
+- [Project Overview](#-project-overview)
 - [Description](#description)
 - [Instructions](#instructions)
 - [Project Description](#project-description)
@@ -20,9 +21,27 @@
 - [Resources](#resources)
 - [Conclusion](#conclusion)
 
+# 📊 Project Overview
 
-    <!-- # Description-->
+### Mandatory Requirements
+
+- ✅ Virtual machine using VirtualBox or UTM
+- ✅ Latest stable Rocky Linux (no graphical interface)
+- ✅ LVM with at least 2 encrypted partitions
+- ✅ SSH service on port 4242 only
+- ✅ firewalld configured
+- ✅ Strong password policy implemented
+- ✅ Sudo configured with strict rules
+- ✅ Monitoring script displaying system info every 10 minutes
+
+### Bonus Requirements
+
+- ✅ Complex partition structure (multiple logical volumes)
+- ✅ WordPress website with Apache (httpd), MariaDB, and PHP
+- ✅ Additional useful service (FTP, Fail2ban, etc.)	
+
 # Description
+
 ## Virtualization
 
 Virtualization is a technology used to create virtual representations of `servers`, `storage`, `networks`, and `other physical machines`. Virtualization software `mimics` the functions of physical hardware, allowing multiple virtual machines to run simultaneously on a single physical machine. Businesses use virtualization to utilize hardware resources more efficiently and achieve better returns on their investment. It also powers cloud computing services, helping organizations `manage infrastructure` more effectively. Additionally, virtualization is a solution for limited hardware resources, as it provides users with an isolated environment. The physical machine is called the host, while the virtual machine running on it is called the guest.
