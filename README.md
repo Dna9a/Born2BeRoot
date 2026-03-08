@@ -40,7 +40,7 @@
 - ✅ WordPress website with Apache (httpd), MariaDB, and PHP
 - ✅ Additional useful service (FTP, Fail2ban, etc.)	
 
-# Description
+# 🖌️Description
 
 ## Virtualization
 
