@@ -1,0 +1,89 @@
+version:
+  name: velociraptor
+  version: 0.7.1
+  commit: "0746831"
+  build_time: "2023-12-13T10:45:43Z"
+  install_time: 1750299027
+  ci_build_url: https://github.com/Velocidex/velociraptor/actions/runs/7194076107
+  compiler: go1.21.4
+Client:
+  server_urls:
+  - https://localhost:8000/
+  ca_certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIIDTDCCAjSgAwIBAgIRANfOIMi4la56ANduIMRVPOAwDQYJKoZIhvcNAQELBQAw
+    GjEYMBYGA1UEChMPVmVsb2NpcmFwdG9yIENBMB4XDTI1MDYxOTAyMTAyN1oXDTM1
+    MDYxNzAyMTAyN1owGjEYMBYGA1UEChMPVmVsb2NpcmFwdG9yIENBMIIBIjANBgkq
+    hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsR0YTxagalVg9Koimt/uWXsblvKNFg0u
+    TRfuBCEAs/ySfWghmQPi06ROmtEW0Tlv3C9ra8zD4kh5CyVSuf2ZNXoAmbGqoEFA
+    LxxTn5mvMiEYmgRH9u8nICwOhyYVS++98+H6Y3D2OW1x8ct03Y+cIvEyoMYBk8Yt
+    osqfpPvjQ3wHiWlMQSg5NVrLNuQKGfcGoEtUm420kAspRc39Z0zj+VAnDwDtBuaS
+    u14GorXwXVhAl/Tl/gRWVPFOePM57+HvDBYpTRH8+6yBfmDBpq8fwg0jnr05ed9k
+    SPGQm0w37A6mHKyxwrsdt3f2OTYdrPqth02f4vMjXXxo63PoVBBEtQIDAQABo4GM
+    MIGJMA4GA1UdDwEB/wQEAwICpDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUH
+    AwIwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUSS3DEBSJ7lM0HsmODfWSo2EP
+    ygwwKAYDVR0RBCEwH4IdVmVsb2NpcmFwdG9yX2NhLnZlbG9jaWRleC5jb20wDQYJ
+    KoZIhvcNAQELBQADggEBAIN8/vsZLGJBC+jsV7+f+d4sZ2yaEBVG57K3jpeHjXEg
+    rcMjPyjzgwUX0FHVgFFo1fTso64AnX9+3FS3iv13PGPjhM1f2/pi+UZrdbhssyGg
+    J5tEELu3TWysAa9p4M3Dso6xrBc+Rs6P5S2nHQg5cYxoHlXBVS6vx4KYOuO36eTC
+    KgxrW/NlbschDZEfTkRYJEqyAeKGOpktBAk1sC3BizenIO7Xf5qyb92ZirvqVKuS
+    qP1/JjbH139h6ep75EGZ/DQLabR03jGgrXu8Ov6tv/YQ8s4AnBilq0FpiwMkKqun
+    jyX1e1hPzpS8MEikOIczF+Ck03OYHvzsO9kz99ja+kc=
+    -----END CERTIFICATE-----
+  nonce: n2Hag60gGWQ=
+  writeback_linux: /etc/velociraptor.writeback.yaml
+  writeback_windows: $ProgramFiles\Velociraptor\velociraptor.writeback.yaml
+  writeback_darwin: /etc/velociraptor.writeback.yaml
+  max_poll: 60
+  nanny_max_connection_delay: 600
+  pinned_server_name: VelociraptorServer
+  max_upload_size: 5242880
+  local_buffer:
+    memory_size: 52428800
+    disk_size: 1073741824
+    filename_linux: /var/tmp/Velociraptor_Buffer.bin
+    filename_windows: $TEMP/Velociraptor_Buffer.bin
+    filename_darwin: /var/tmp/Velociraptor_Buffer.bin
+API:
+  bind_address: 0.0.0.0
+  bind_port: 8001
+  bind_scheme: tcp
+  pinned_gw_name: GRPC_GW
+GUI:
+  bind_address: 0.0.0.0
+  bind_port: 8889
+  public_url: https://localhost:7000/app/index.html
+  authenticator:
+    type: Basic
+Frontend:
+  hostname: localhost
+  bind_address: 0.0.0.0
+  bind_port: 8000
+  dyn_dns: {}
+  default_client_monitoring_artifacts:
+  - Generic.Client.Stats
+  GRPC_pool_max_size: 100
+  GRPC_pool_max_wait: 60
+  resources:
+    connections_per_second: 100
+    notifications_per_second: 30
+    max_upload_size: 10485760
+    expected_clients: 30000
+Datastore:
+  implementation: FileBaseDataStore
+  location: /var/tmp/velociraptor/
+  filestore_directory: /var/tmp/velociraptor/
+Logging:
+  separate_logs_per_component: true
+  info:
+    rotation_time: 604800
+    max_age: 31536000
+  error:
+    rotation_time: 604800
+    max_age: 31536000
+Monitoring:
+  bind_address: 0.0.0.0
+  bind_port: 8003
+defaults:
+  hunt_expiry_hours: 168
+  notebook_cell_timeout_min: 10

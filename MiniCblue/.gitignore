@@ -1,0 +1,8 @@
+# SSL certificates (generated at runtime)
+wazuh/config/wazuh_indexer_ssl_certs/*.pem
+wazuh/config/wazuh_indexer_ssl_certs/*.key
+# Don't exclude .gitkeep
+!wazuh/config/wazuh_indexer_ssl_certs/.gitkeep
+# Caldera data
+caldera/data/*
+!caldera/data/.gitkeep
