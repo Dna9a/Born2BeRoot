@@ -71,7 +71,10 @@ It is software that sits on top of your main OS, such as:
 - **[Rocky - Inst.text](https://forums.rockylinux.org/t/inst-text-not-working/4414)**
 - **[Rocky - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
 - **[RedHat - TextMode](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/installation_guide/sect-installation-text-mode-x86)**
-- **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)** 
+- **[RedHat - SElinux](https://www.redhat.com/en/topics/linux/what-is-selinux)**
+
+## Born2BeRoot Bible made by 1337 students
+- **[I didnt much need it but it is very usefull](https://miro.com/app/board/uXjVPEVHTXk=/)**
 
 <!-- Instructions -->
 # Instructions
